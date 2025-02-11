@@ -1,0 +1,181 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Inscription - Bopesa Marketing{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <style>
+        .register-container {
+            min-height: 100vh;
+            background: linear-gradient(135deg, #6366f1 0%, #4f46e5 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+        }
+
+        .register-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 1rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 400px;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: #1e293b;
+            font-weight: 500;
+            font-size: 0.95rem;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            border: 2px solid #e2e8f0;
+            border-radius: 0.5rem;
+            transition: all 0.2s;
+            font-size: 1rem;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: #4f46e5;
+            box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
+        }
+
+        .form-check {
+            margin-top: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .form-check-input {
+            width: 1.2rem;
+            height: 1.2rem;
+            border: 2px solid #e2e8f0;
+            border-radius: 0.25rem;
+            transition: all 0.2s;
+        }
+
+        .form-check-input:checked {
+            background-color: #4f46e5;
+            border-color: #4f46e5;
+        }
+
+        .form-check-label {
+            font-size: 0.95rem;
+            color: #4b5563;
+        }
+
+        .btn-primary {
+            width: 100%;
+            background-color: #4f46e5;
+            color: white;
+            padding: 0.875rem;
+            border-radius: 0.5rem;
+            font-weight: 500;
+            border: none;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-size: 1rem;
+            margin-top: 1rem;
+        }
+
+        .btn-primary:hover {
+            background-color: #4338ca;
+            transform: translateY(-1px);
+        }
+
+        .alert {
+            padding: 1rem;
+            border-radius: 0.5rem;
+            margin-bottom: 1.5rem;
+            font-size: 0.95rem;
+        }
+
+        .alert-danger {
+            background-color: #fee2e2;
+            border: 1px solid #fecaca;
+            color: #991b1b;
+        }
+
+        .login-link {
+            display: block;
+            text-align: center;
+            margin-top: 1.5rem;
+            color: #6b7280;
+            text-decoration: none;
+            font-size: 0.95rem;
+        }
+
+        .login-link a {
+            color: #4f46e5;
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .login-link a:hover {
+            text-decoration: underline;
+        }
+    </style>
+{% endblock %}
+
+{% block body %}
+    <div class="register-container">
+        <div class="register-card">
+            <h1 class="text-3xl font-bold text-center mb-8">Inscription</h1>
+
+            {{ form_start(registrationForm) }}
+                {% if form_errors(registrationForm) %}
+                    <div class="alert alert-danger">
+                        {{ form_errors(registrationForm) }}
+                    </div>
+                {% endif %}
+
+                <div class="form-group">
+                    {{ form_label(registrationForm.fullName, 'Nom complet', {'label_attr': {'class': 'form-label'}}) }}
+                    {{ form_widget(registrationForm.fullName, {'attr': {'class': 'form-control', 'placeholder': 'Votre nom complet'}}) }}
+                </div>
+
+                <div class="form-group">
+                    {{ form_label(registrationForm.email, 'Email', {'label_attr': {'class': 'form-label'}}) }}
+                    {{ form_widget(registrationForm.email, {'attr': {'class': 'form-control', 'placeholder': 'votre@email.com'}}) }}
+                </div>
+
+                <div class="form-group">
+                    {{ form_label(registrationForm.projectName, 'Nom du projet', {'label_attr': {'class': 'form-label'}}) }}
+                    {{ form_widget(registrationForm.projectName, {'attr': {'class': 'form-control', 'placeholder': 'Le nom de votre projet'}}) }}
+                </div>
+
+                <div class="form-group">
+                    {{ form_label(registrationForm.website, 'Site web (optionnel)', {'label_attr': {'class': 'form-label'}}) }}
+                    {{ form_widget(registrationForm.website, {'attr': {'class': 'form-control', 'placeholder': 'https://www.votresite.com'}}) }}
+                </div>
+
+                <div class="form-group">
+                    {{ form_label(registrationForm.plainPassword, 'Mot de passe', {'label_attr': {'class': 'form-label'}}) }}
+                    {{ form_widget(registrationForm.plainPassword, {'attr': {'class': 'form-control', 'placeholder': 'Votre mot de passe'}}) }}
+                </div>
+
+                <div class="form-check">
+                    {{ form_widget(registrationForm.agreeTerms, {'attr': {'class': 'form-check-input'}}) }}
+                    <label class="form-check-label">J'accepte les conditions d'utilisation</label>
+                </div>
+
+                <button type="submit" class="btn-primary">S'inscrire</button>
+            {{ form_end(registrationForm) }}
+
+            <div class="login-link">
+                Déjà inscrit ? <a href="{{ path('app_login') }}">Se connecter</a>
+            </div>
+        </div>
+    </div>
+{% endblock %}

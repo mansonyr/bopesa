@@ -1,0 +1,145 @@
+{% extends 'base.html.twig' %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('css/channel.css') }}">
+{% endblock %}
+
+{% block title %}Canaux d'acquisition - Bopesa Marketing{% endblock %}
+
+{% block body %}
+<div class="app-container">
+    <!-- Sidebar -->
+    <aside class="sidebar">
+        <div class="sidebar-header">
+            <h1 class="text-xl font-bold">Bopesa Marketing</h1>
+        </div>
+        <nav class="sidebar-menu">
+            {% for channel in channels %}
+            <a href="{{ path('app_web_channel_show', {'id': channel.id}) }}" class="sidebar-item {% if app.request.get('id') == channel.id %}active{% endif %}">
+                <span class="icon">📊</span>
+                <span>{{ channel.name }}</span>
+            </a>
+            {% endfor %}
+        </nav>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="content-header">
+            <h2 class="text-2xl font-bold">{{ current_channel.name ?? 'Sélectionnez un canal' }}</h2>
+            <button class="btn btn-primary">
+                <span class="icon">+</span>
+                Ajouter une tâche
+            </button>
+        </div>
+
+        {% if current_channel is defined %}
+        <div class="task-board">
+            <!-- À faire -->
+            <div class="task-column">
+                <div class="task-column-header">
+                    À faire
+                </div>
+                <div class="task-list">
+                    {% for task in todo_tasks %}
+                    <div class="task-card">
+                        <h3 class="font-semibold">{{ task.title }}</h3>
+                        <p class="text-sm text-gray-600">{{ task.description }}</p>
+                        <div class="task-actions mt-2">
+                            {% if not task.isDefault or is_granted('ROLE_ADMIN') %}
+                                <a href="{{ path('app_web_task_edit', {'channelId': current_channel.id, 'id': task.id}) }}" class="btn btn-sm btn-outline-primary">
+                                    <i class="fas fa-edit"></i> Modifier
+                                </a>
+                            {% endif %}
+
+
+
+                            {% if is_granted('ROLE_ADMIN') %}
+                                <form action="{{ path('app_web_task_delete', {'channelId': current_channel.id, 'id': task.id}) }}" method="post" class="d-inline">
+                                    <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ task.id) }}">
+                                    <button type="submit" class="btn btn-sm btn-outline-danger" onclick="return confirm('Êtes-vous sûr de vouloir supprimer cette tâche ?')">
+                                        <i class="fas fa-trash"></i> Supprimer
+                                    </button>
+                                </form>
+                            {% endif %}
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+
+            <!-- En cours -->
+            <div class="task-column">
+                <div class="task-column-header">
+                    En cours
+                </div>
+                <div class="task-list">
+                    {% for task in in_progress_tasks %}
+                    <div class="task-card">
+                        <h3 class="font-semibold">{{ task.title }}</h3>
+                        <p class="text-sm text-gray-600">{{ task.description }}</p>
+                        <div class="task-actions mt-2">
+                            {% if not task.isDefault or is_granted('ROLE_ADMIN') %}
+                                <a href="{{ path('app_web_task_edit', {'channelId': current_channel.id, 'id': task.id}) }}" class="btn btn-sm btn-outline-primary">
+                                    <i class="fas fa-edit"></i> Modifier
+                                </a>
+                            {% endif %}
+
+
+
+                            {% if is_granted('ROLE_ADMIN') %}
+                                <form action="{{ path('app_web_task_delete', {'channelId': current_channel.id, 'id': task.id}) }}" method="post" class="d-inline">
+                                    <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ task.id) }}">
+                                    <button type="submit" class="btn btn-sm btn-outline-danger" onclick="return confirm('Êtes-vous sûr de vouloir supprimer cette tâche ?')">
+                                        <i class="fas fa-trash"></i> Supprimer
+                                    </button>
+                                </form>
+                            {% endif %}
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+
+            <!-- Terminé -->
+            <div class="task-column">
+                <div class="task-column-header">
+                    Terminé
+                </div>
+                <div class="task-list">
+                    {% for task in completed_tasks %}
+                    <div class="task-card">
+                        <h3 class="font-semibold">{{ task.title }}</h3>
+                        <p class="text-sm text-gray-600">{{ task.description }}</p>
+                        <div class="task-actions mt-2">
+                            {% if not task.isDefault or is_granted('ROLE_ADMIN') %}
+                                <a href="{{ path('app_web_task_edit', {'channelId': current_channel.id, 'id': task.id}) }}" class="btn btn-sm btn-outline-primary">
+                                    <i class="fas fa-edit"></i> Modifier
+                                </a>
+                            {% endif %}
+
+
+
+                            {% if is_granted('ROLE_ADMIN') %}
+                                <form action="{{ path('app_web_task_delete', {'channelId': current_channel.id, 'id': task.id}) }}" method="post" class="d-inline">
+                                    <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ task.id) }}">
+                                    <button type="submit" class="btn btn-sm btn-outline-danger" onclick="return confirm('Êtes-vous sûr de vouloir supprimer cette tâche ?')">
+                                        <i class="fas fa-trash"></i> Supprimer
+                                    </button>
+                                </form>
+                            {% endif %}
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+        {% else %}
+        <div class="text-center text-gray-500 mt-8">
+            <p>Veuillez sélectionner un canal d'acquisition pour voir ses tâches</p>
+        </div>
+        {% endif %}
+    </main>
+</div>
+{% endblock %}

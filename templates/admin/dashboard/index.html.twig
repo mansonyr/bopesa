@@ -1,0 +1,143 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Administration - Bopesa Marketing{% endblock %}
+
+{% block body %}
+    <div class="app-container">
+        <div class="main-content">
+            <div class="content-header">
+                <h1 class="text-3xl font-bold">Administration</h1>
+            </div>
+
+            <div class="admin-grid">
+                <div class="admin-card">
+                    <div class="admin-card-header">
+                        <i class="fas fa-users text-blue-600"></i>
+                        <h2>Utilisateurs</h2>
+                    </div>
+                    <p class="text-gray-600">Gérer les utilisateurs et leurs permissions</p>
+                    <a href="{{ path('app_admin_user_index') }}" class="btn btn-primary mt-4">
+                        <i class="fas fa-arrow-right"></i>
+                        Accéder
+                    </a>
+                </div>
+
+                <div class="admin-card">
+                    <div class="admin-card-header">
+                        <i class="fas fa-project-diagram text-green-600"></i>
+                        <h2>Projets</h2>
+                    </div>
+                    <p class="text-gray-600">Gérer les projets et leurs paramètres</p>
+                    <a href="{{ path('app_admin_project_index') }}" class="btn btn-primary mt-4">
+                        <i class="fas fa-arrow-right"></i>
+                        Accéder
+                    </a>
+                </div>
+
+                <div class="admin-card">
+                    <div class="admin-card-header">
+                        <i class="fas fa-bullhorn text-yellow-600"></i>
+                        <h2>Canaux</h2>
+                    </div>
+                    <p class="text-gray-600">Gérer les canaux de communication</p>
+                    <a href="{{ path('app_admin_channel_index') }}" class="btn btn-primary mt-4">
+                        <i class="fas fa-arrow-right"></i>
+                        Accéder
+                    </a>
+                </div>
+
+                <div class="admin-card">
+                    <div class="admin-card-header">
+                        <i class="fas fa-tasks text-red-600"></i>
+                        <h2>Tâches</h2>
+                    </div>
+                    <p class="text-gray-600">Gérer les tâches principales</p>
+                    <a href="{{ path('app_admin_task_index') }}" class="btn btn-primary mt-4">
+                        <i class="fas fa-arrow-right"></i>
+                        Accéder
+                    </a>
+                </div>
+
+                <div class="admin-card">
+                    <div class="admin-card-header">
+                        <i class="fas fa-list-ul text-indigo-600"></i>
+                        <h2>Sous-tâches</h2>
+                    </div>
+                    <p class="text-gray-600">Gérer les sous-tâches</p>
+                    <a href="{{ path('app_admin_subtask_index') }}" class="btn btn-primary mt-4">
+                        <i class="fas fa-arrow-right"></i>
+                        Accéder
+                    </a>
+                </div>
+
+                <div class="admin-card">
+                    <div class="admin-card-header">
+                        <i class="fas fa-cog text-purple-600"></i>
+                        <h2>Paramètres</h2>
+                    </div>
+                    <p class="text-gray-600">Configurer les paramètres de l'application</p>
+                    <a href="{{ path('app_admin_settings_index') }}" class="btn btn-primary mt-4">
+                        <i class="fas fa-arrow-right"></i>
+                        Accéder
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <style>
+        .admin-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .admin-card {
+            background: white;
+            border-radius: 0.5rem;
+            padding: 1.5rem;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+
+        .admin-card-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .admin-card-header i {
+            font-size: 1.5rem;
+        }
+
+        .admin-card-header h2 {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: #111827;
+        }
+
+        .mt-4 {
+            margin-top: 1rem;
+        }
+
+        .text-blue-600 {
+            color: #2563eb;
+        }
+
+        .text-green-600 {
+            color: #059669;
+        }
+
+        .text-purple-600 {
+            color: #7c3aed;
+        }
+
+        .text-gray-600 {
+            color: #4b5563;
+        }
+    </style>
+{% endblock %}
