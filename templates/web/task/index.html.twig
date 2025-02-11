@@ -1,0 +1,63 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Tâches - {{ channel.name }}{% endblock %}
+
+{% block body %}
+    <div class="container mt-4">
+        <h1>Tâches - {{ channel.name }}</h1>
+
+        <div class="mb-4">
+            <a href="{{ path('app_web_task_new', {'channelId': channel.id}) }}" class="btn btn-primary">
+                <i class="fas fa-plus"></i> Nouvelle tâche
+            </a>
+        </div>
+
+        <div class="list-group">
+            {% for task in filteredTasks %}
+                <div class="list-group-item">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <h5 class="mb-1">{{ task.title }}</h5>
+                        <div>
+                            {% if not task.isDefault or is_granted('ROLE_ADMIN') %}
+                                <a href="{{ path('app_web_task_edit', {'channelId': channel.id, 'id': task.id}) }}" class="btn btn-sm btn-outline-primary">
+                                    <i class="fas fa-edit"></i> Modifier
+                                </a>
+                            {% endif %}
+                            
+
+
+                            {% if is_granted('ROLE_ADMIN') %}
+                                {# Bouton Supprimer pour les admins uniquement #}
+                                <form action="{{ path('app_web_task_delete', {'channelId': channel.id, 'id': task.id}) }}" method="post" class="d-inline">
+                                    <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ task.id) }}">
+                                    <button type="submit" class="btn btn-sm btn-outline-danger" onclick="return confirm('Êtes-vous sûr de vouloir supprimer cette tâche ?')">
+                                        <i class="fas fa-trash"></i> Supprimer
+                                    </button>
+                                </form>
+                            {% endif %}
+                        </div>
+                    </div>
+                    <p class="mb-1">{{ task.description }}</p>
+                    <div class="progress mt-2" style="height: 20px;">
+                        <div class="progress-bar" role="progressbar" style="width: {{ task.progress }}%;" aria-valuenow="{{ task.progress }}" aria-valuemin="0" aria-valuemax="100">
+                            {{ task.progress }}%
+                        </div>
+                    </div>
+                    <small class="text-muted">
+                        {% if task.isDefault %}
+                            <span class="badge badge-info">Tâche par défaut</span>
+                        {% endif %}
+                        Créée le {{ task.createdAt|date('d/m/Y') }}
+                        {% if task.dueDate %}
+                            - À terminer avant le {{ task.dueDate|date('d/m/Y') }}
+                        {% endif %}
+                    </small>
+                </div>
+            {% else %}
+                <div class="alert alert-info">
+                    Aucune tâche n'a été trouvée.
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}

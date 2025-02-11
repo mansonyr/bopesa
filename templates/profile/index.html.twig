@@ -1,0 +1,65 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Mon profil - Bopesa Marketing{% endblock %}
+
+{% block body %}
+    <div class="app-container">
+        <div class="main-content">
+            <div class="content-header">
+                <h1 class="text-3xl font-bold">Mon profil</h1>
+            </div>
+
+            <div class="profile-card">
+                <div class="profile-info-section">
+                    <h2 class="text-xl font-semibold mb-4">Informations personnelles</h2>
+                    <div class="info-grid">
+                        <div class="info-item">
+                            <label>Email</label>
+                            <p>{{ user.email }}</p>
+                        </div>
+                        <div class="info-item">
+                            <label>Rôle</label>
+                            <p>{% if is_granted('ROLE_ADMIN') %}Administrateur{% else %}Utilisateur{% endif %}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <style>
+        .profile-card {
+            background: white;
+            border-radius: 0.5rem;
+            padding: 2rem;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            max-width: 800px;
+        }
+
+        .profile-info-section {
+            margin-bottom: 2rem;
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+
+        .info-item label {
+            display: block;
+            font-size: 0.875rem;
+            color: #6b7280;
+            margin-bottom: 0.5rem;
+        }
+
+        .info-item p {
+            font-size: 1rem;
+            color: #111827;
+            font-weight: 500;
+        }
+    </style>
+{% endblock %}

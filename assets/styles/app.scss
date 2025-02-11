@@ -1,0 +1,279 @@
+// Import Bootstrap
+// Import des variables personnalisées
+@import './variables';
+
+// Import de Bootstrap avec nos variables personnalisées
+@import '~bootstrap/scss/bootstrap';
+
+// Styles globaux
+html, body {
+  height: 100%;
+  background-color: $gray-100;
+}
+
+body {
+  font-family: $font-family-sans-serif;
+  color: $gray-800;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+// Styles de la barre de navigation
+.navbar {
+  height: $navbar-height;
+  box-shadow: $box-shadow;
+  
+  .navbar-brand {
+    font-weight: $font-weight-semibold;
+  }
+  
+  .nav-link {
+    font-weight: $font-weight-medium;
+    padding: 0.5rem 1rem;
+    transition: $transition-base;
+    
+    &:hover {
+      color: $primary;
+    }
+    
+    &.router-link-active {
+      color: $primary;
+    }
+  }
+}
+
+// Styles des cartes
+.card {
+  border: none;
+  border-radius: $card-border-radius;
+  box-shadow: $box-shadow;
+  transition: $transition-base;
+  
+  &:hover {
+    box-shadow: $box-shadow-md;
+  }
+  
+  .card-title {
+    font-weight: $font-weight-semibold;
+    color: $gray-900;
+  }
+  
+  .card-text {
+    color: $gray-600;
+  }
+}
+
+// Styles des boutons
+.btn {
+  font-weight: $font-weight-medium;
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  transition: $transition-base;
+  
+  &-primary {
+    background: linear-gradient(to right, $primary, darken($primary, 5%));
+    border: none;
+    
+    &:hover {
+      background: linear-gradient(to right, darken($primary, 5%), darken($primary, 10%));
+      transform: translateY(-1px);
+    }
+  }
+  
+  &-light {
+    background-color: $light;
+    border: 1px solid $gray-200;
+    color: $gray-700;
+    
+    &:hover {
+      background-color: $gray-100;
+      color: $gray-900;
+    }
+  }
+}
+
+// Styles des barres de progression
+.progress {
+  background-color: $gray-200;
+  border-radius: 1rem;
+  height: 0.5rem;
+  
+  .progress-bar {
+    background: linear-gradient(to right, $primary, $info);
+    border-radius: 1rem;
+    transition: width 0.6s ease;
+  }
+}
+
+// Styles des modales
+.modal {
+  .modal-content {
+    border: none;
+    border-radius: $card-border-radius;
+    box-shadow: $box-shadow-lg;
+  }
+  
+  .modal-header {
+    border-bottom: 1px solid $gray-200;
+    padding: 1.25rem 1.5rem;
+    
+    .modal-title {
+      font-weight: $font-weight-semibold;
+      color: $gray-900;
+    }
+  }
+  
+  .modal-body {
+    padding: 1.5rem;
+  }
+  
+  .modal-footer {
+    border-top: 1px solid $gray-200;
+    padding: 1.25rem 1.5rem;
+  }
+}
+
+// Styles des formulaires
+.form-control {
+  border: 1px solid $gray-300;
+  border-radius: 8px;
+  padding: 0.625rem 0.875rem;
+  transition: $transition-base;
+  
+  &:focus {
+    border-color: $primary;
+    box-shadow: 0 0 0 3px rgba($primary, 0.1);
+  }
+}
+
+.form-label {
+  font-weight: $font-weight-medium;
+  color: $gray-700;
+  margin-bottom: 0.5rem;
+}
+
+// Styles des listes de tâches
+.task-list {
+  .task-item {
+    transition: $transition-base;
+    
+    &:hover {
+      transform: translateX(4px);
+    }
+  }
+}
+
+.subtask-list {
+  .form-check-input {
+    border-color: $gray-400;
+    
+    &:checked {
+      background-color: $success;
+      border-color: $success;
+    }
+  }
+}
+
+// Styles des icônes
+.bi {
+  vertical-align: -0.125em;
+  margin-right: 0.25rem;
+}
+
+// Styles des animations
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.fade-enter-active {
+  animation: fadeIn 0.3s ease-out;
+}
+
+// Styles des utilitaires
+.cursor-pointer {
+  cursor: pointer;
+}
+
+.text-truncate-2 {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+// Styles responsive
+@include media-breakpoint-down(md) {
+  .card {
+    margin-bottom: 1rem;
+  }
+  
+  .navbar {
+    padding: 0.5rem 1rem;
+  }
+}
+
+@include media-breakpoint-up(lg) {
+  .container {
+    max-width: 1140px;
+  }
+}
+
+// Dark mode (optionnel)
+@media (prefers-color-scheme: dark) {
+  body {
+    background-color: $gray-900;
+    color: $gray-100;
+  }
+  
+  .card {
+    background-color: $gray-800;
+    
+    .card-title {
+      color: $gray-100;
+    }
+    
+    .card-text {
+      color: $gray-400;
+    }
+  }
+  
+  .form-control {
+    background-color: $gray-800;
+    border-color: $gray-700;
+    color: $gray-100;
+    
+    &:focus {
+      background-color: $gray-800;
+      border-color: $primary;
+    }
+  }
+  
+  .modal-content {
+    background-color: $gray-800;
+  }
+  
+  .modal-header, .modal-footer {
+    border-color: $gray-700;
+  }
+}
+// Custom styles
+:root {
+    --primary-color: #3498db;
+    --secondary-color: #2ecc71;
+}
+
+body {
+    background-color: #f8f9fa;
+}
+
+.navbar-brand {
+    font-weight: bold;
+    color: var(--primary-color) !important;
+}

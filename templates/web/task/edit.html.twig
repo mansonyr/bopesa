@@ -1,0 +1,29 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Modifier la tâche{% endblock %}
+
+{% block body %}
+    <div class="container mt-4">
+        <h1>Modifier la tâche</h1>
+
+        {{ form_start(form) }}
+            {{ form_widget(form) }}
+            <div class="btn-group">
+                <a href="{{ path('app_web_task_index', {'channelId': channel.id}) }}" class="btn btn-secondary">Annuler</a>
+                
+                {% if not task.isDefault or is_granted('ROLE_ADMIN') %}
+                    <button type="submit" class="btn btn-primary">Enregistrer</button>
+                {% endif %}
+
+                {% if is_granted('ROLE_ADMIN') %}
+                    <form action="{{ path('app_web_task_delete', {'channelId': channel.id, 'id': task.id}) }}" method="post" class="d-inline">
+                        <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ task.id) }}">
+                        <button type="submit" class="btn btn-danger" onclick="return confirm('Êtes-vous sûr de vouloir supprimer cette tâche ?')">
+                            Supprimer
+                        </button>
+                    </form>
+                {% endif %}
+            </div>
+        {{ form_end(form) }}
+    </div>
+{% endblock %}

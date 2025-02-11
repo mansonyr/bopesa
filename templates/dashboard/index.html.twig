@@ -1,0 +1,870 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Tableau de bord - Bopesa Marketing{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        .dashboard-container {
+            display: flex;
+            min-height: 100vh;
+        }
+        
+        .sidebar {
+            width: 250px;
+            background-color: #1a56db;
+            color: white;
+            padding: 1rem;
+        }
+        
+        .sidebar-title {
+            font-size: 1.5rem;
+            font-weight: bold;
+            padding: 1rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .channel-list {
+            margin-top: 1rem;
+        }
+        
+        .channel-item {
+            padding: 0.75rem 1rem;
+            cursor: pointer;
+            border-radius: 0.375rem;
+            margin-bottom: 0.5rem;
+            transition: all 0.2s;
+        }
+        
+        .channel-item:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+        
+        .channel-item.active {
+            background-color: rgba(255, 255, 255, 0.2);
+        }
+        
+        .main-content {
+            flex: 1;
+            padding: 2rem;
+            background-color: #f3f4f6;
+        }
+        
+        .channel-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+        
+        .tabs {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            border-bottom: 1px solid #e5e7eb;
+        }
+        
+        .tab {
+            padding: 0.75rem 1.5rem;
+            cursor: pointer;
+            border-bottom: 2px solid transparent;
+            font-weight: 500;
+        }
+        
+        .tab.active {
+            border-bottom-color: #1a56db;
+            color: #1a56db;
+        }
+        
+        .task-columns {
+            display: flex;
+            gap: 1rem;
+            overflow-x: auto;
+            padding: 1rem;
+            min-height: calc(100vh - 200px);
+        }
+        
+        .task-column {
+            flex: 0 0 300px;
+            background-color: #f3f4f6;
+            border-radius: 0.5rem;
+            padding: 1rem;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .task-column-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid #e5e7eb;
+        }
+        
+        .task-actions {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .subtasks-container {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            min-height: 100px;
+        }
+        
+        .subtask-card {
+            background-color: white;
+            border-radius: 0.375rem;
+            padding: 1rem;
+            box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+        }
+        
+        .subtask-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.5rem;
+        }
+        
+        .subtask-title {
+            font-weight: 500;
+        }
+        
+        .subtask-description {
+            color: #6b7280;
+            font-size: 0.875rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .edit-button {
+            padding: 0.25rem;
+            border-radius: 0.25rem;
+            color: #6b7280;
+            transition: all 0.2s;
+        }
+        
+        .edit-button:hover {
+            background-color: #e5e7eb;
+            color: #374151;
+        }
+        
+        .add-subtask-button,
+        .add-task-button {
+            width: 100%;
+            padding: 0.5rem;
+            border: 2px dashed #d1d5db;
+            border-radius: 0.375rem;
+            color: #6b7280;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            transition: all 0.2s;
+        }
+        
+        .add-subtask-button:hover,
+        .add-task-button:hover {
+            background-color: #f9fafb;
+            border-color: #9ca3af;
+            color: #374151;
+        }
+        
+        .add-task-column {
+            background-color: transparent;
+            border: none;
+            padding: 0;
+            min-width: 300px;
+        }
+        
+        .add-task-button {
+            height: 100%;
+            background-color: #f3f4f6;
+        }
+        
+        .modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0, 0, 0, 0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 50;
+        }
+        
+        .modal.hidden {
+            display: none;
+        }
+        
+        .modal-content {
+            background-color: white;
+            border-radius: 0.5rem;
+            padding: 2rem;
+            width: 100%;
+            max-width: 500px;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+        
+        .modal-content h2 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+        }
+        
+        .form-group {
+            margin-bottom: 1rem;
+        }
+        
+        .form-group label {
+            display: block;
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+        }
+        
+        .form-group input[type="text"],
+        .form-group textarea,
+        .form-group select {
+            width: 100%;
+            padding: 0.5rem;
+            border: 1px solid #d1d5db;
+            border-radius: 0.375rem;
+            font-size: 1rem;
+        }
+        
+        .form-group textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+        
+        .modal-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        .btn-archive {
+            background-color: #4b5563;
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 0.25rem;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+        .btn-archive:hover {
+            background-color: #374151;
+        }
+        }
+        
+        .modal-actions button {
+            padding: 0.5rem 1rem;
+            border-radius: 0.375rem;
+            font-weight: 500;
+            transition: all 0.2s;
+            border: none;
+            cursor: pointer;
+        }
+        
+        .btn-cancel {
+            background-color: #f3f4f6;
+            color: #374151;
+        }
+        
+        .btn-cancel:hover {
+            background-color: #e5e7eb;
+        }
+        
+        .btn-primary {
+            background-color: #1a56db;
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background-color: #1e40af;
+        }
+
+        .btn-danger {
+            background-color: #dc2626;
+            color: white;
+            border: none;
+            margin-left: 0.5rem;
+            padding: 0.5rem 1rem;
+            border-radius: 0.375rem;
+            cursor: pointer;
+            transition: background-color 0.2s;
+            margin-top: 1rem;
+            width: 100%;
+        }
+
+        .btn-danger:hover {
+            background-color: #b91c1c;
+        }
+
+        .btn-delete {
+            background-color: #ef4444;
+            color: white;
+        }
+
+        .btn-delete:hover {
+            background-color: #dc2626;
+        }
+        
+        .task-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+        
+        .progress-bar {
+            width: 100%;
+            height: 0.5rem;
+            background-color: #e5e7eb;
+            border-radius: 9999px;
+            overflow: hidden;
+        }
+        
+        .progress-value {
+            height: 100%;
+            background-color: #1a56db;
+            transition: width 0.3s ease;
+        }
+        
+        .status-badge {
+            padding: 0.25rem 0.75rem;
+            border-radius: 9999px;
+            font-size: 0.875rem;
+            font-weight: 500;
+        }
+        
+        .status-todo {
+            background-color: #fee2e2;
+            color: #991b1b;
+        }
+        
+        .status-in_progress {
+            background-color: #fef3c7;
+            color: #92400e;
+        }
+        
+        .status-done {
+            background-color: #dcfce7;
+            color: #166534;
+        }
+        
+        .subtask-list {
+            margin-top: 1rem;
+            padding-left: 1.5rem;
+        }
+        
+        .subtask-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 0.75rem 0;
+            border-bottom: 1px solid #e5e7eb;
+        }
+        
+        .subtask-checkbox {
+            width: 1.25rem;
+            height: 1.25rem;
+        }
+        
+        .subtask-content {
+            flex: 1;
+        }
+        
+        .subtask-description {
+            color: #6b7280;
+            font-size: 0.875rem;
+            margin-top: 0.25rem;
+        }
+        
+        .resources-list {
+            margin-top: 0.5rem;
+            font-size: 0.875rem;
+        }
+        
+        .resource-link {
+            color: #1a56db;
+            text-decoration: none;
+        }
+        
+        .resource-link:hover {
+            text-decoration: underline;
+        }
+    </style>
+{% endblock %}
+
+{% block body %}
+    <div class="dashboard-container">
+        {# Sidebar #}
+        <div class="sidebar">
+            <div class="sidebar-title">BOPESA</div>
+            <div class="channel-list">
+                {% for channel in channels %}
+                    <div class="channel-item {% if channel.id == currentChannel.id %}active{% endif %}"
+                         onclick="window.location.href='{{ path('app_web_channel_show', {'id': channel.id}) }}'">
+                        {{ channel.name }}
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+
+        {# Main Content #}
+        <div class="main-content">
+            {% if currentChannel %}
+                <div class="channel-header">
+                    <h1 class="text-3xl font-bold">{{ currentChannel.name }}</h1>
+                    <div class="progress-bar" style="width: 200px;">
+                        <div class="progress-value" style="width: {{ currentChannel.progress }}%;"></div>
+                    </div>
+                </div>
+
+                {# Tabs #}
+                <div class="tabs">
+                    <div class="tab {% if activeTab == 'tasks' %}active{% endif %}"
+                         onclick="window.location.href='{{ path('app_web_channel_show', {'id': currentChannel.id, 'tab': 'tasks'}) }}'">
+                        Tâches principales
+                    </div>
+                    <div class="tab {% if activeTab == 'subtasks' %}active{% endif %}"
+                         onclick="window.location.href='{{ path('app_web_channel_show', {'id': currentChannel.id, 'tab': 'subtasks'}) }}'">
+                        Sous-tâches
+                    </div>
+                </div>
+
+                {# Tasks Tab Content #}
+                {% if activeTab == 'tasks' %}
+                    <div class="task-columns">
+                        {% for task in currentChannel.tasks %}
+                            <div class="task-column">
+                                <div class="task-column-header">
+                                    <h3 class="text-xl font-semibold">{{ task.title }}</h3>
+                                    <div class="task-actions">
+                                        <span class="status-badge status-{{ task.status }}">
+                                            {% if task.status == 'todo' %}À faire
+                                            {% elseif task.status == 'in_progress' %}En cours
+                                            {% else %}Terminé
+                                            {% endif %}
+                                        </span>
+                                        <button onclick="showEditTaskModal({{ task.id }})" class="edit-button">
+                                            <i class="fas fa-ellipsis-h"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                                
+                                <div class="subtasks-container">
+                                    {% for subtask in task.subTasks %}
+                                        <div class="subtask-card">
+                                            <div class="subtask-header">
+                                                <h4 class="subtask-title">{{ subtask.title }}</h4>
+                                                <button onclick="showEditSubtaskModal({{ subtask.id }}, {{ subtask.task.id }})" class="edit-button">
+                                                    <i class="fas fa-ellipsis-h"></i>
+                                                </button>
+                                            </div>
+                                            <p class="subtask-description">{{ subtask.description }}</p>
+                                            <div class="subtask-status">
+                                                <span class="status-badge status-{{ subtask.status }}">
+                                                    {% if subtask.status == 'todo' %}À faire
+                                                    {% elseif subtask.status == 'in_progress' %}En cours
+                                                    {% else %}Terminé
+                                                    {% endif %}
+                                                </span>
+                                            </div>
+                                        </div>
+                                    {% endfor %}
+                                    
+                                    <button onclick="showAddSubtaskModal({{ task.id }})" class="add-subtask-button">
+                                        <i class="fas fa-plus"></i> Ajouter une sous-tâche
+                                    </button>
+                                </div>
+                            </div>
+                        {% endfor %}
+                        
+                        <div class="task-column add-task-column">
+                            <button onclick="showAddTaskModal()" class="add-task-button">
+                                <i class="fas fa-plus"></i> Ajouter une tâche
+                            </button>
+                        </div>
+                    </div>
+                {% endif %}
+
+                {# Subtasks Tab Content #}
+                {% if activeTab == 'subtasks' and selectedTask %}
+                    <div class="task-card">
+                        <h3 class="text-xl font-semibold mb-4">{{ selectedTask.title }}</h3>
+                        <div class="subtask-list">
+                            {% for subtask in selectedTask.subTasks %}
+                                <div class="subtask-item">
+                                    <input type="checkbox" class="subtask-checkbox" 
+                                           {% if subtask.status == 'done' %}checked{% endif %}
+                                           onchange="updateSubtaskStatus('{{ path('app_subtask_toggle', {'id': subtask.id}) }}')">
+                                    <div class="subtask-content">
+                                        <div class="font-medium">{{ subtask.title }}</div>
+                                        <div class="subtask-description">{{ subtask.description }}</div>
+                                        {% if subtask.resources %}
+                                            <div class="resources-list">
+                                                Ressources utiles:
+                                                {% for resource in subtask.resources %}
+                                                    <a href="{{ resource.url }}" class="resource-link" target="_blank">
+                                                        {{ resource.title }}
+                                                    </a>
+                                                    {% if not loop.last %} • {% endif %}
+                                                {% endfor %}
+                                            </div>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                {% endif %}
+            {% else %}
+                <div class="text-center text-gray-600">
+                    <p>Sélectionnez un canal pour voir ses tâches</p>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+    
+    {{ block('modals') }}
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+
+    <script>
+        function getCsrfToken(id, action) {
+            const tokens = {
+                {% for id in range(1, 100) %}
+
+                {% endfor %}
+            };
+            return tokens[action + id] || '';
+        }
+        const currentChannelId = {{ currentChannel ? currentChannel.id : 'null' }};
+        let currentTaskId = null;
+
+        // Modales
+        async function archiveTask(taskId) {
+            if (!confirm('Êtes-vous sûr de vouloir archiver cette tâche ?')) {
+                return;
+            }
+
+            try {
+                const response = await fetch(`/web/archive/task/${taskId}`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                        'X-Requested-With': 'XMLHttpRequest'
+                    },
+                    body: `_token=${getCsrfToken(taskId, 'archive')}`
+                });
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    hideModal('editTaskModal');
+                    location.reload();
+                } else {
+                    alert(data.error || 'Erreur lors de l\'archivage de la tâche');
+                }
+            } catch (error) {
+                console.error('Erreur:', error);
+                alert('Erreur lors de l\'archivage de la tâche');
+            }
+        }
+
+        async function archiveSubtask(subtaskId) {
+            if (!confirm('Êtes-vous sûr de vouloir archiver cette sous-tâche ?')) {
+                return;
+            }
+
+            try {
+                const response = await fetch(`/web/archive/subtask/${subtaskId}`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                        'X-Requested-With': 'XMLHttpRequest'
+                    },
+                    body: `_token=${getCsrfToken(subtaskId, 'archive')}`
+                });
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    hideModal('editSubtaskModal');
+                    location.reload();
+                } else {
+                    alert(data.error || 'Erreur lors de l\'archivage de la sous-tâche');
+                }
+            } catch (error) {
+                console.error('Erreur:', error);
+                alert('Erreur lors de l\'archivage de la sous-tâche');
+            }
+        }
+
+        function showModal(modalId) {
+            const modal = document.getElementById(modalId);
+            modal.classList.remove('hidden');
+        }
+
+        function hideModal(modalId) {
+            const modal = document.getElementById(modalId);
+            modal.classList.add('hidden');
+        }
+
+        function showAddTaskModal() {
+            showModal('addTaskModal');
+        }
+
+        async function deleteTask(taskId) {
+            if (!confirm('Êtes-vous sûr de vouloir supprimer cette tâche ?')) {
+                return;
+            }
+            try {
+                const response = await fetch(`/api/tasks/${taskId}`, {
+                    method: 'DELETE',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-Requested-With': 'XMLHttpRequest'
+                    }
+                });
+
+                if (response.ok) {
+                    hideModal('editTaskModal');
+                    location.reload();
+                } else {
+                    alert('Une erreur est survenue lors de la suppression de la tâche');
+                }
+            } catch (error) {
+                console.error('Erreur:', error);
+                alert('Une erreur est survenue lors de la suppression de la tâche');
+            }
+        }
+
+        async function deleteSubtask(subtaskId) {
+            if (!confirm('Êtes-vous sûr de vouloir supprimer cette sous-tâche ?')) {
+                return;
+            }
+            try {
+                const response = await fetch(`/api/subtasks/${subtaskId}`, {
+                    method: 'DELETE',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-Requested-With': 'XMLHttpRequest'
+                    }
+                });
+
+                if (response.ok) {
+                    hideModal('editSubtaskModal');
+                    location.reload();
+                } else {
+                    alert('Une erreur est survenue lors de la suppression de la sous-tâche');
+                }
+            } catch (error) {
+                console.error('Erreur:', error);
+                alert('Une erreur est survenue lors de la suppression de la sous-tâche');
+            }
+        }
+
+        function showEditTaskModal(taskId) {
+            // Récupérer les données de la tâche via API
+            fetch(`/api/tasks/${taskId}`)
+                .then(response => response.json())
+                .then(data => {
+                    document.getElementById('editTaskId').value = taskId;
+                    document.getElementById('editTaskTitle').value = data.title;
+                    document.getElementById('editTaskDescription').value = data.description;
+                    document.getElementById('editTaskStatus').value = data.status;
+                    showModal('editTaskModal');
+                });
+        }
+
+        function showAddSubtaskModal(taskId) {
+            document.getElementById('addSubtaskTaskId').value = taskId;
+            showModal('addSubtaskModal');
+        }
+
+        function showEditSubtaskModal(subtaskId, taskId) {
+            currentTaskId = taskId;
+            // Récupérer les données de la sous-tâche via API
+            fetch(`/api/subtasks/${subtaskId}`)
+                .then(response => response.json())
+                .then(data => {
+                    document.getElementById('editSubtaskId').value = subtaskId;
+                    document.getElementById('editSubtaskTitle').value = data.title;
+                    document.getElementById('editSubtaskDescription').value = data.description;
+                    document.getElementById('editSubtaskStatus').value = data.status;
+                    showModal('editSubtaskModal');
+                });
+        }
+
+        // Formulaires
+        async function submitForm(formId, url, method = 'POST') {
+            const form = document.getElementById(formId);
+            const formData = new FormData(form);
+            const data = Object.fromEntries(formData.entries());
+            
+            try {
+                const response = await fetch(url, {
+                    method: method,
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-Requested-With': 'XMLHttpRequest'
+                    },
+                    body: JSON.stringify(data)
+                });
+                
+                const result = await response.json();
+                if (result.success) {
+                    hideModal(form.closest('.modal').id);
+                    location.reload();
+                } else {
+                    alert('Une erreur est survenue');
+                }
+            } catch (error) {
+                console.error('Erreur:', error);
+                alert('Une erreur est survenue');
+            }
+        }
+    </script>
+{% endblock %}
+
+{% block modals %}
+    {# Modal Ajouter une tâche #}
+    <div id="addTaskModal" class="modal hidden">
+        <div class="modal-content">
+            <h2>Ajouter une tâche</h2>
+            <form id="addTaskForm" onsubmit="event.preventDefault(); submitForm('addTaskForm', '/api/tasks')">
+                <input type="hidden" name="channelId" value="{{ currentChannel.id }}">
+                <div class="form-group">
+                    <label for="title">Titre</label>
+                    <input type="text" id="title" name="title" required>
+                </div>
+                <div class="form-group">
+                    <label for="description">Description</label>
+                    <textarea id="description" name="description" required></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="status">Statut</label>
+                    <select id="status" name="status" required>
+                        <option value="todo">À faire</option>
+                        <option value="in_progress">En cours</option>
+                        <option value="done">Terminé</option>
+                    </select>
+                </div>
+                <div class="modal-actions">
+                    <button type="button" onclick="hideModal('addTaskModal')" class="btn-cancel">Annuler</button>
+                    <button type="submit" class="btn-primary">Ajouter</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    {# Modal Éditer une tâche #}
+    <div id="editTaskModal" class="modal hidden">
+        <div class="modal-content">
+            <h2>Modifier la tâche</h2>
+            <form id="editTaskForm" onsubmit="event.preventDefault(); submitForm('editTaskForm', '/api/tasks/' + document.getElementById('editTaskId').value, 'PUT')">
+                <input type="hidden" id="editTaskId" name="id">
+                <div class="form-group">
+                    <label for="editTaskTitle">Titre</label>
+                    <input type="text" id="editTaskTitle" name="title" required>
+                </div>
+                <div class="form-group">
+                    <label for="editTaskDescription">Description</label>
+                    <textarea id="editTaskDescription" name="description" required></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="editTaskStatus">Statut</label>
+                    <select id="editTaskStatus" name="status" required>
+                        <option value="todo">À faire</option>
+                        <option value="in_progress">En cours</option>
+                        <option value="done">Terminé</option>
+                    </select>
+                </div>
+                <div class="modal-actions">
+                    <button type="button" onclick="hideModal('editTaskModal')" class="btn-cancel">Annuler</button>
+                    <button type="submit" class="btn-primary">Enregistrer</button>
+                </div>
+            </form>
+            <div class="modal-actions mt-4">
+                <button type="button" onclick="deleteTask(document.getElementById('editTaskId').value)" class="btn-danger">Supprimer</button>
+            </div>
+        </div>
+    </div>
+
+    {# Modal Ajouter une sous-tâche #}
+    <div id="addSubtaskModal" class="modal hidden">
+        <div class="modal-content">
+            <h2>Ajouter une sous-tâche</h2>
+            <form id="addSubtaskForm" onsubmit="event.preventDefault(); submitForm('addSubtaskForm', '/api/subtasks')">
+                <input type="hidden" id="addSubtaskTaskId" name="taskId">
+                <div class="form-group">
+                    <label for="subtaskTitle">Titre</label>
+                    <input type="text" id="subtaskTitle" name="title" required>
+                </div>
+                <div class="form-group">
+                    <label for="subtaskDescription">Description</label>
+                    <textarea id="subtaskDescription" name="description" required></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="subtaskStatus">Statut</label>
+                    <select id="subtaskStatus" name="status" required>
+                        <option value="todo">À faire</option>
+                        <option value="in_progress">En cours</option>
+                        <option value="done">Terminé</option>
+                    </select>
+                </div>
+                <div class="modal-actions">
+                    <button type="button" onclick="hideModal('addSubtaskModal')" class="btn-cancel">Annuler</button>
+                    <button type="submit" class="btn-primary">Ajouter</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    {# Modal Éditer une sous-tâche #}
+    <div id="editSubtaskModal" class="modal hidden">
+        <div class="modal-content">
+            <h2>Modifier la sous-tâche</h2>
+            <form id="editSubtaskForm" onsubmit="event.preventDefault(); submitForm('editSubtaskForm', '/api/subtasks/' + document.getElementById('editSubtaskId').value, 'PUT')">
+                <input type="hidden" id="editSubtaskId" name="id">
+                <div class="form-group">
+                    <label for="editSubtaskTitle">Titre</label>
+                    <input type="text" id="editSubtaskTitle" name="title" required>
+                </div>
+                <div class="form-group">
+                    <label for="editSubtaskDescription">Description</label>
+                    <textarea id="editSubtaskDescription" name="description" required></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="editSubtaskStatus">Statut</label>
+                    <select id="editSubtaskStatus" name="status" required>
+                        <option value="todo">À faire</option>
+                        <option value="in_progress">En cours</option>
+                        <option value="done">Terminé</option>
+                    </select>
+                </div>
+                <div class="modal-actions">
+                    <button type="button" onclick="hideModal('editSubtaskModal')" class="btn-cancel">Annuler</button>
+                    <button type="submit" class="btn-primary">Enregistrer</button>
+                </div>
+            </form>
+            <div class="modal-actions mt-4">
+                <button type="button" onclick="deleteSubtask(document.getElementById('editSubtaskId').value)" class="btn-danger">Supprimer</button>
+            </div>
+        </div>
+    </div>
+{% endblock %}
