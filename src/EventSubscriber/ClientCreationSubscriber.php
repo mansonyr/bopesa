@@ -2,14 +2,15 @@
 
 namespace App\EventSubscriber;
 
-use App\Entity\User;
+use App\Entity\Client;
+use App\Entity\Channel;
 use App\Service\DefaultChannelService;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\Security\Http\Event\InteractiveLoginEvent;
 use Symfony\Component\Security\Http\SecurityEvents;
 use Doctrine\ORM\EntityManagerInterface;
 
-class UserCreationSubscriber implements EventSubscriberInterface
+class ClientCreationSubscriber implements EventSubscriberInterface
 {
     public function __construct(
         private DefaultChannelService $defaultChannelService,
@@ -28,7 +29,7 @@ class UserCreationSubscriber implements EventSubscriberInterface
     {
         $user = $event->getAuthenticationToken()->getUser();
         
-        if (!$user instanceof User) {
+        if (!$user instanceof Client) {
             return;
         }
 

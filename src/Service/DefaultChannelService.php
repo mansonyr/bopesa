@@ -5,7 +5,7 @@ namespace App\Service;
 use App\Entity\Channel;
 use App\Entity\Task;
 use App\Entity\Subtask;
-use App\Entity\User;
+use App\Entity\Client;
 use Doctrine\ORM\EntityManagerInterface;
 
 class DefaultChannelService
@@ -15,7 +15,7 @@ class DefaultChannelService
     ) {
     }
 
-    public function copyDefaultChannelsForUser(User $user): void
+    public function copyDefaultChannelsForUser(Client $user): void
     {
         // Récupérer uniquement les canaux par défaut qui n'appartiennent à aucun utilisateur
         $defaultChannels = $this->entityManager->getRepository(Channel::class)

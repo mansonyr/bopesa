@@ -11,9 +11,9 @@ use Doctrine\ORM\Mapping as ORM;
 #[ORM\Entity(repositoryClass: TaskRepository::class)]
 class Task
 {
-    #[ORM\ManyToOne(targetEntity: User::class)]
+    #[ORM\ManyToOne(targetEntity: Client::class)]
     #[ORM\JoinColumn(nullable: true)]
-    private ?User $user = null;
+    private ?Client $user = null;
     public const STATUS_TODO = 'todo';
     public const STATUS_IN_PROGRESS = 'in_progress';
     public const STATUS_DONE = 'done';
@@ -201,12 +201,12 @@ class Task
         return $this;
     }
 
-    public function getUser(): ?User
+    public function getUser(): ?Client
     {
         return $this->user;
     }
 
-    public function setUser(?User $user): static
+    public function setUser(?Client $user): static
     {
         $this->user = $user;
         return $this;

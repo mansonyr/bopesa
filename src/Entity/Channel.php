@@ -11,9 +11,9 @@ use Doctrine\ORM\Mapping as ORM;
 #[ORM\Entity(repositoryClass: ChannelRepository::class)]
 class Channel
 {
-    #[ORM\ManyToOne(targetEntity: User::class)]
+    #[ORM\ManyToOne(targetEntity: Client::class)]
     #[ORM\JoinColumn(nullable: true)]
-    private ?User $user = null;
+    private ?Client $user = null;
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
@@ -161,12 +161,12 @@ class Channel
         return $this;
     }
 
-    public function getUser(): ?User
+    public function getUser(): ?Client
     {
         return $this->user;
     }
 
-    public function setUser(?User $user): static
+    public function setUser(?Client $user): static
     {
         $this->user = $user;
 

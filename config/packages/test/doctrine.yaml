@@ -1,10 +1,10 @@
 doctrine:
     dbal:
         # configure these for your database server
-        driver: 'pdo_pgsql'
-        dbname: 'bopesa_test'
-        host: 'localhost'
-        port: 5432
-        user: '%env(resolve:DATABASE_USER)%'
-        password: '%env(resolve:DATABASE_PASSWORD)%'
-        charset: utf8
+        driver: 'pdo_mysql'
+        dbname: 'sapebo_test'
+        host: '127.0.0.1'
+        port: 55006
+        user: 'root'
+        password: '!ChangeMe!'
+        charset: utf8mb4

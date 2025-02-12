@@ -3,12 +3,12 @@
 namespace App\EventSubscriber;
 
 use App\Entity\Channel;
-use App\Entity\User;
+use App\Entity\Client;
 use App\Service\DefaultChannelService;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use EasyCorp\Bundle\EasyAdminBundle\Event\AfterEntityPersistedEvent;
 
-class UserRegistrationSubscriber implements EventSubscriberInterface
+class ClientRegistrationSubscriber implements EventSubscriberInterface
 {
     public function __construct(
         private DefaultChannelService $defaultChannelService
@@ -26,7 +26,7 @@ class UserRegistrationSubscriber implements EventSubscriberInterface
     {
         $entity = $event->getEntityInstance();
 
-        if (!$entity instanceof User) {
+        if (!$entity instanceof Client) {
             return;
         }
 

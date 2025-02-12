@@ -34,8 +34,8 @@ class Project
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private ?\DateTimeInterface $updatedAt = null;
 
-    #[ORM\ManyToOne(inversedBy: 'projects')]
-    private ?User $utilisateur = null;
+    #[ORM\ManyToOne(targetEntity: Client::class, inversedBy: 'projects')]
+    private ?Client $utilisateur = null;
 
     public function __construct()
     {
@@ -125,12 +125,12 @@ class Project
         return $this;
     }
 
-    public function getUtilisateur(): ?User
+    public function getUtilisateur(): ?Client
     {
         return $this->utilisateur;
     }
 
-    public function setUtilisateur(?User $utilisateur): static
+    public function setUtilisateur(?Client $utilisateur): static
     {
         $this->utilisateur = $utilisateur;
 
