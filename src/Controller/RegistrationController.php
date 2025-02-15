@@ -23,7 +23,7 @@ class RegistrationController extends AbstractController
     ): Response
     {
         if ($this->getUser()) {
-            return $this->redirectToRoute('app_web_channel_list');
+            return $this->redirectToRoute('app_web_channel_show');
         }
 
         $user = new Client();

@@ -11,6 +11,6 @@ class DefaultController extends AbstractController
     #[Route('/', name: 'app_home')]
     public function index(): Response
     {
-        return $this->redirectToRoute('app_web_channel_list', [], Response::HTTP_MOVED_PERMANENTLY);
+        return $this->redirectToRoute('app_web_channel_show', [], Response::HTTP_MOVED_PERMANENTLY);
     }
 }

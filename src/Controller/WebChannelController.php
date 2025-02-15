@@ -25,7 +25,7 @@ final class WebChannelController extends AbstractController
             throw $this->createAccessDeniedException('Vous devez être connecté pour accéder à cette page');
         }
 
-        // Si c'est un admin, montrer tous les canaux
+        //  Si c'est un admin, montrer tous les canaux
         if (in_array('ROLE_ADMIN', $user->getRoles())) {
             $channels = $this->entityManager->getRepository(Channel::class)->findAll();
         } else {
