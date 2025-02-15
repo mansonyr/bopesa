@@ -32,6 +32,9 @@ class SubtaskController extends AbstractController
         $subtask->setTitle($data['title']);
         $subtask->setDescription($data['description']);
         $subtask->setStatus($data['status']);
+        if (isset($data['priority'])) {
+            $subtask->setPriority($data['priority']);
+        }
         $subtask->setTask($task);
         
         $this->entityManager->persist($subtask);
@@ -45,6 +48,7 @@ class SubtaskController extends AbstractController
             'title' => $subtask->getTitle(),
             'description' => $subtask->getDescription(),
             'status' => $subtask->getStatus(),
+            'priority' => $subtask->getPriority(),
         ]]);
     }
     
@@ -56,6 +60,7 @@ class SubtaskController extends AbstractController
             'title' => $subtask->getTitle(),
             'description' => $subtask->getDescription(),
             'status' => $subtask->getStatus(),
+            'priority' => $subtask->getPriority(),
         ]);
     }
     
@@ -67,6 +72,9 @@ class SubtaskController extends AbstractController
         $subtask->setTitle($data['title']);
         $subtask->setDescription($data['description']);
         $subtask->setStatus($data['status']);
+        if (isset($data['priority'])) {
+            $subtask->setPriority($data['priority']);
+        }
         
         $this->entityManager->flush();
         
@@ -78,6 +86,7 @@ class SubtaskController extends AbstractController
             'title' => $subtask->getTitle(),
             'description' => $subtask->getDescription(),
             'status' => $subtask->getStatus(),
+            'priority' => $subtask->getPriority(),
         ]]);
     }
     

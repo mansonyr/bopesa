@@ -1,0 +1,113 @@
+{# Modal Ajouter une tâche #}
+<div id="addTaskModal" class="modal hidden">
+    <div class="modal-content">
+        <h2>Ajouter une tâche</h2>
+        <form id="addTaskForm" onsubmit="event.preventDefault(); submitForm('addTaskForm', '/api/tasks', 'POST')">
+            <input type="hidden" name="channelId" value="{{ currentChannel ? currentChannel.id : '' }}">
+            <div class="form-group">
+                <label for="title">Titre</label>
+                <input type="text" id="title" name="title" required>
+            </div>
+            <div class="form-group">
+                <label for="status">Statut</label>
+                <select id="status" name="status" required>
+                    <option value="todo">À faire</option>
+                    <option value="in_progress">En cours</option>
+                    <option value="done">Terminé</option>
+                </select>
+            </div>
+            <div class="form-actions">
+                <button type="button" onclick="closeModal('addTaskModal')">Annuler</button>
+                <button type="submit">Ajouter</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+{# Modal Modifier une tâche #}
+<div id="editTaskModal" class="modal hidden">
+    <div class="modal-content">
+        <h2>Modifier la tâche</h2>
+        <form id="editTaskForm" onsubmit="event.preventDefault(); submitForm('editTaskForm', '/api/tasks/' + document.getElementById('editTaskId').value, 'PUT')">
+            <input type="hidden" id="editTaskId" name="id">
+            <div class="form-group">
+                <label for="editTitle">Titre</label>
+                <input type="text" id="editTitle" name="title" required>
+            </div>
+            <div class="form-group">
+                <label for="editStatus">Statut</label>
+                <select id="editStatus" name="status" required>
+                    <option value="todo">À faire</option>
+                    <option value="in_progress">En cours</option>
+                    <option value="done">Terminé</option>
+                </select>
+            </div>
+            <div class="form-actions">
+                <button type="button" onclick="closeModal('editTaskModal')">Annuler</button>
+                <button type="submit">Enregistrer</button>
+                <button type="button" onclick="deleteTask(document.getElementById('editTaskId').value)" class="delete-button">Supprimer</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+{# Modal Ajouter une sous-tâche #}
+<div id="addSubtaskModal" class="modal hidden">
+    <div class="modal-content">
+        <h2>Ajouter une sous-tâche</h2>
+        <form id="addSubtaskForm" onsubmit="event.preventDefault(); submitForm('addSubtaskForm', '/api/subtasks', 'POST')">
+            <input type="hidden" id="taskId" name="taskId">
+            <div class="form-group">
+                <label for="subtaskTitle">Titre</label>
+                <input type="text" id="subtaskTitle" name="title" required>
+            </div>
+            <div class="form-group">
+                <label for="description">Description</label>
+                <textarea id="description" name="description" rows="3"></textarea>
+            </div>
+            <div class="form-group">
+                <label for="subtaskStatus">Statut</label>
+                <select id="subtaskStatus" name="status" required>
+                    <option value="todo">À faire</option>
+                    <option value="in_progress">En cours</option>
+                    <option value="done">Terminé</option>
+                </select>
+            </div>
+            <div class="form-actions">
+                <button type="button" onclick="closeModal('addSubtaskModal')">Annuler</button>
+                <button type="submit">Ajouter</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+{# Modal Modifier une sous-tâche #}
+<div id="editSubtaskModal" class="modal hidden">
+    <div class="modal-content">
+        <h2>Modifier la sous-tâche</h2>
+        <form id="editSubtaskForm" onsubmit="event.preventDefault(); submitForm('editSubtaskForm', '/api/subtasks/' + document.getElementById('editSubtaskId').value, 'PUT')">
+            <input type="hidden" id="editSubtaskId" name="id">
+            <div class="form-group">
+                <label for="editSubtaskTitle">Titre</label>
+                <input type="text" id="editSubtaskTitle" name="title" required>
+            </div>
+            <div class="form-group">
+                <label for="editSubtaskDescription">Description</label>
+                <textarea id="editSubtaskDescription" name="description" rows="3"></textarea>
+            </div>
+            <div class="form-group">
+                <label for="editSubtaskStatus">Statut</label>
+                <select id="editSubtaskStatus" name="status" required>
+                    <option value="todo">À faire</option>
+                    <option value="in_progress">En cours</option>
+                    <option value="done">Terminé</option>
+                </select>
+            </div>
+            <div class="form-actions">
+                <button type="button" onclick="closeModal('editSubtaskModal')">Annuler</button>
+                <button type="submit">Enregistrer</button>
+                <button type="button" onclick="deleteSubtask(document.getElementById('editSubtaskId').value)" class="delete-button">Supprimer</button>
+            </div>
+        </form>
+    </div>
+</div>

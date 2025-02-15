@@ -24,6 +24,7 @@ class DemoFixtures extends Fixture
         $seoTask1->setTitle('Configurer Google Search Console et Google Analytics');
         $seoTask1->setDescription('Mettre en place les outils de base pour le suivi SEO');
         $seoTask1->setStatus('in_progress');
+        $seoTask1->setPriority(Task::PRIORITY_1);
         $seoTask1->setProgress(33);
         $seoTask1->setChannel($seoChannel);
         $manager->persist($seoTask1);
@@ -43,7 +44,8 @@ class DemoFixtures extends Fixture
             'Accéder à la Search Console',
             'Connectez-vous à la Search Console et connecter votre site.',
             'in_progress',
-            'https://search.google.com/search-console'
+            'https://search.google.com/search-console',
+            Subtask::PRIORITY_2
         );
 
         $this->createSubTask(
@@ -52,7 +54,8 @@ class DemoFixtures extends Fixture
             'Configurer les rapports',
             'Configurez des rapports personnalisés dans Google Analytics.',
             'todo',
-            'https://analytics.google.com/'
+            'https://analytics.google.com/',
+            Subtask::PRIORITY_3
         );
 
         // Canal Email Marketing
@@ -67,6 +70,7 @@ class DemoFixtures extends Fixture
         $emailTask1->setTitle('Configurer l\'outil d\'emailing');
         $emailTask1->setDescription('Choisir et configurer une plateforme d\'email marketing');
         $emailTask1->setStatus('todo');
+        $emailTask1->setPriority(Task::PRIORITY_2);
         $emailTask1->setProgress(0);
         $emailTask1->setChannel($emailChannel);
         $manager->persist($emailTask1);
@@ -100,6 +104,7 @@ class DemoFixtures extends Fixture
         $socialTask1->setTitle('Optimiser les profils sociaux');
         $socialTask1->setDescription('Mettre à jour et optimiser les profils sur les réseaux sociaux');
         $socialTask1->setStatus('done');
+        $socialTask1->setPriority(Task::PRIORITY_3);
         $socialTask1->setProgress(100);
         $socialTask1->setChannel($socialChannel);
         $manager->persist($socialTask1);
@@ -132,12 +137,14 @@ class DemoFixtures extends Fixture
         string $title,
         string $description,
         string $status,
-        ?string $resources = null
+        ?string $resources = null,
+        ?string $priority = null
     ): void {
         $subtask = new Subtask();
         $subtask->setTitle($title);
         $subtask->setDescription($description);
         $subtask->setStatus($status);
+        $subtask->setPriority($priority);
         if ($resources) {
             $subtask->setResources($resources);
         }

@@ -6,6 +6,29 @@
     {{ parent() }}
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
+        .status-badge, .priority-badge {
+            padding: 0.25rem 0.5rem;
+            border-radius: 9999px;
+            font-size: 0.75rem;
+            font-weight: 500;
+            margin-right: 0.5rem;
+            display: inline-block;
+        }
+
+        .priority-p1 {
+            background-color: #fee2e2;
+            color: #991b1b;
+        }
+
+        .priority-p2 {
+            background-color: #fef3c7;
+            color: #92400e;
+        }
+
+        .priority-p3 {
+            background-color: #e0e7ff;
+            color: #3730a3;
+        }
         .dashboard-container {
             display: flex;
             min-height: 100vh;
@@ -457,6 +480,14 @@
                                             {% else %}Terminé
                                             {% endif %}
                                         </span>
+                                        {% if task.priority %}
+                                            <span class="priority-badge priority-{{ task.priority }}">
+                                                {% if task.priority == 'p1' %}Priorité 1
+                                                {% elseif task.priority == 'p2' %}Priorité 2
+                                                {% elseif task.priority == 'p3' %}Priorité 3
+                                                {% endif %}
+                                            </span>
+                                        {% endif %}
                                         <button onclick="showEditTaskModal({{ task.id }})" class="edit-button">
                                             <i class="fas fa-ellipsis-h"></i>
                                         </button>
@@ -480,6 +511,14 @@
                                                     {% else %}Terminé
                                                     {% endif %}
                                                 </span>
+                                                {% if subtask.priority %}
+                                                    <span class="priority-badge priority-{{ subtask.priority }}">
+                                                        {% if subtask.priority == 'p1' %}Priorité 1
+                                                        {% elseif subtask.priority == 'p2' %}Priorité 2
+                                                        {% elseif subtask.priority == 'p3' %}Priorité 3
+                                                        {% endif %}
+                                                    </span>
+                                                {% endif %}
                                             </div>
                                         </div>
                                     {% endfor %}
@@ -687,6 +726,7 @@
                     document.getElementById('editTaskTitle').value = data.title;
                     document.getElementById('editTaskDescription').value = data.description;
                     document.getElementById('editTaskStatus').value = data.status;
+                    document.getElementById('editTaskPriority').value = data.priority || '';
                     showModal('editTaskModal');
                 });
         }
@@ -707,6 +747,7 @@
                     document.getElementById('editSubtaskTitle').value = data.title;
                     document.getElementById('editSubtaskDescription').value = data.description;
                     document.getElementById('editSubtaskStatus').value = data.status;
+                    document.getElementById('editSubtaskPriority').value = data.priority || '';
                     showModal('editSubtaskModal');
                 });
         }
@@ -765,6 +806,15 @@
                         <option value="done">Terminé</option>
                     </select>
                 </div>
+                <div class="form-group">
+                    <label for="priority">Priorité</label>
+                    <select id="priority" name="priority">
+                        <option value="">Aucune</option>
+                        <option value="p1">Priorité 1</option>
+                        <option value="p2">Priorité 2</option>
+                        <option value="p3">Priorité 3</option>
+                    </select>
+                </div>
                 <div class="modal-actions">
                     <button type="button" onclick="hideModal('addTaskModal')" class="btn-cancel">Annuler</button>
                     <button type="submit" class="btn-primary">Ajouter</button>
@@ -793,6 +843,15 @@
                         <option value="todo">À faire</option>
                         <option value="in_progress">En cours</option>
                         <option value="done">Terminé</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="editTaskPriority">Priorité</label>
+                    <select id="editTaskPriority" name="priority">
+                        <option value="">Aucune</option>
+                        <option value="p1">Priorité 1</option>
+                        <option value="p2">Priorité 2</option>
+                        <option value="p3">Priorité 3</option>
                     </select>
                 </div>
                 <div class="modal-actions">
@@ -829,6 +888,15 @@
                         <option value="done">Terminé</option>
                     </select>
                 </div>
+                <div class="form-group">
+                    <label for="subtaskPriority">Priorité</label>
+                    <select id="subtaskPriority" name="priority">
+                        <option value="">Aucune</option>
+                        <option value="p1">Priorité 1</option>
+                        <option value="p2">Priorité 2</option>
+                        <option value="p3">Priorité 3</option>
+                    </select>
+                </div>
                 <div class="modal-actions">
                     <button type="button" onclick="hideModal('addSubtaskModal')" class="btn-cancel">Annuler</button>
                     <button type="submit" class="btn-primary">Ajouter</button>
@@ -858,6 +926,15 @@
                         <option value="todo">À faire</option>
                         <option value="in_progress">En cours</option>
                         <option value="done">Terminé</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="editSubtaskPriority">Priorité</label>
+                    <select id="editSubtaskPriority" name="priority">
+                        <option value="">Aucune</option>
+                        <option value="p1">Priorité 1</option>
+                        <option value="p2">Priorité 2</option>
+                        <option value="p3">Priorité 3</option>
                     </select>
                 </div>
                 <div class="modal-actions">

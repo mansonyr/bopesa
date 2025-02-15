@@ -47,6 +47,9 @@ class TaskController extends AbstractController
             $task->setTitle($data['title']);
             $task->setDescription($data['description']);
             $task->setStatus($data['status']);
+            if (isset($data['priority'])) {
+                $task->setPriority($data['priority']);
+            }
             $task->setProgress($data['status'] === Task::STATUS_DONE ? 100 : 0);
             $task->setChannel($channel);
             $task->setCreatedAt(new \DateTime());
@@ -61,6 +64,7 @@ class TaskController extends AbstractController
                 'title' => $task->getTitle(),
                 'description' => $task->getDescription(),
                 'status' => $task->getStatus(),
+                'priority' => $task->getPriority(),
                 'progress' => $task->getProgress(),
             ]]);
         } catch (\Exception $e) {
@@ -76,6 +80,7 @@ class TaskController extends AbstractController
             'title' => $task->getTitle(),
             'description' => $task->getDescription(),
             'status' => $task->getStatus(),
+            'priority' => $task->getPriority(),
             'progress' => $task->getProgress(),
         ]);
     }
@@ -88,6 +93,9 @@ class TaskController extends AbstractController
         $task->setTitle($data['title']);
         $task->setDescription($data['description']);
         $task->setStatus($data['status']);
+        if (isset($data['priority'])) {
+            $task->setPriority($data['priority']);
+        }
         $task->setProgress($data['status'] === Task::STATUS_DONE ? 100 : ($data['status'] === Task::STATUS_IN_PROGRESS ? 50 : 0));
         
         $this->updateChannelProgress($task->getChannel());
@@ -98,6 +106,7 @@ class TaskController extends AbstractController
             'title' => $task->getTitle(),
             'description' => $task->getDescription(),
             'status' => $task->getStatus(),
+            'priority' => $task->getPriority(),
             'progress' => $task->getProgress(),
         ]]);
     }

@@ -48,7 +48,7 @@ class LoginFormAuthenticator extends AbstractLoginFormAuthenticator
             return new RedirectResponse($targetPath);
         }
 
-        return new RedirectResponse($this->urlGenerator->generate('app_web_channel_show'));
+        return new RedirectResponse($this->urlGenerator->generate('app_web_channel_list'));
     }
 
     protected function getLoginUrl(Request $request): string

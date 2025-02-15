@@ -24,6 +24,16 @@ class Task
         self::STATUS_DONE => 'Terminé',
     ];
 
+    public const PRIORITY_1 = 'p1';
+    public const PRIORITY_2 = 'p2';
+    public const PRIORITY_3 = 'p3';
+
+    public const PRIORITIES = [
+        self::PRIORITY_1 => 'Priorité 1',
+        self::PRIORITY_2 => 'Priorité 2',
+        self::PRIORITY_3 => 'Priorité 3',
+    ];
+
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
@@ -37,6 +47,9 @@ class Task
 
     #[ORM\Column(length: 20)]
     private ?string $status = self::STATUS_TODO;
+
+    #[ORM\Column(length: 20, nullable: true)]
+    private ?string $priority = null;
 
     #[ORM\Column]
     private ?float $progress = 0;
@@ -105,6 +118,20 @@ class Task
     public function setStatus(string $status): static
     {
         $this->status = $status;
+        return $this;
+    }
+
+    public function getPriority(): ?string
+    {
+        return $this->priority;
+    }
+
+    public function setPriority(?string $priority): static
+    {
+        if ($priority !== null && !isset(self::PRIORITIES[$priority])) {
+            throw new \InvalidArgumentException(sprintf('Invalid priority "%s"', $priority));
+        }
+        $this->priority = $priority;
         return $this;
     }
 

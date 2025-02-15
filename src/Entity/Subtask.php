@@ -30,6 +30,9 @@ class Subtask
     #[ORM\Column(length: 20)]
     private ?string $status = 'todo';
 
+    #[ORM\Column(length: 20, nullable: true)]
+    private ?string $priority = null;
+
     #[ORM\Column(type: Types::INTEGER)]
     private ?int $progress = 0;
 
@@ -41,6 +44,16 @@ class Subtask
         self::STATUS_TODO => 'À faire',
         self::STATUS_IN_PROGRESS => 'En cours',
         self::STATUS_DONE => 'Terminé',
+    ];
+
+    public const PRIORITY_1 = 'p1';
+    public const PRIORITY_2 = 'p2';
+    public const PRIORITY_3 = 'p3';
+
+    public const PRIORITIES = [
+        self::PRIORITY_1 => 'Priorité 1',
+        self::PRIORITY_2 => 'Priorité 2',
+        self::PRIORITY_3 => 'Priorité 3',
     ];
 
     public function getStatus(): ?string
@@ -57,6 +70,20 @@ class Subtask
         return $this;
     }
 
+    public function getPriority(): ?string
+    {
+        return $this->priority;
+    }
+
+    public function setPriority(?string $priority): static
+    {
+        if ($priority !== null && !isset(self::PRIORITIES[$priority])) {
+            throw new \InvalidArgumentException(sprintf('Invalid priority "%s"', $priority));
+        }
+        $this->priority = $priority;
+        return $this;
+    }
+
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private ?\DateTimeInterface $createdAt = null;
 
@@ -69,7 +96,7 @@ class Subtask
     #[ORM\Column]
     private ?bool $isDefault = false;
 
-    #[ORM\ManyToOne(inversedBy: 'subTasks')]
+    #[ORM\ManyToOne(inversedBy: 'subtasks')]
     #[ORM\JoinColumn(nullable: false)]
     private ?Task $task = null;
 
