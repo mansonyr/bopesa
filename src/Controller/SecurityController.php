@@ -13,7 +13,7 @@ class SecurityController extends AbstractController
     public function login(AuthenticationUtils $authenticationUtils): Response
     {
         if ($this->getUser()) {
-            return $this->redirectToRoute('app_web_channel_show');
+            return $this->redirectToRoute('app_web_channel_list');
         }
 
         $error = $authenticationUtils->getLastAuthenticationError();

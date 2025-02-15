@@ -692,6 +692,7 @@
         }
 
         function showAddSubtaskModal(taskId) {
+            currentTaskId = taskId;
             document.getElementById('addSubtaskTaskId').value = taskId;
             showModal('addSubtaskModal');
         }
@@ -811,6 +812,7 @@
             <h2>Ajouter une sous-tâche</h2>
             <form id="addSubtaskForm" onsubmit="event.preventDefault(); submitForm('addSubtaskForm', '/api/subtasks')">
                 <input type="hidden" id="addSubtaskTaskId" name="taskId">
+
                 <div class="form-group">
                     <label for="subtaskTitle">Titre</label>
                     <input type="text" id="subtaskTitle" name="title" required>
@@ -841,6 +843,7 @@
             <h2>Modifier la sous-tâche</h2>
             <form id="editSubtaskForm" onsubmit="event.preventDefault(); submitForm('editSubtaskForm', '/api/subtasks/' + document.getElementById('editSubtaskId').value, 'PUT')">
                 <input type="hidden" id="editSubtaskId" name="id">
+
                 <div class="form-group">
                     <label for="editSubtaskTitle">Titre</label>
                     <input type="text" id="editSubtaskTitle" name="title" required>

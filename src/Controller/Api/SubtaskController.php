@@ -2,6 +2,7 @@
 
 namespace App\Controller\Api;
 
+use App\Entity\Channel;
 use App\Entity\Subtask;
 use App\Entity\Task;
 use Doctrine\ORM\EntityManagerInterface;
@@ -125,6 +126,36 @@ class SubtaskController extends AbstractController
             }
         }
         
+        // Mettre à jour la progression du canal
+        $this->updateChannelProgress($task->getChannel());
         $this->entityManager->flush();
+    }
+
+    private function updateChannelProgress(Channel $channel): void
+    {
+        $tasks = $channel->getTasks();
+        $totalTasks = count($tasks);
+
+        if ($totalTasks === 0) {
+            $channel->setProgress(0);
+            return;
+        }
+
+        $completedTasks = count(array_filter(
+            $tasks->toArray(),
+            fn(Task $task) => $task->getStatus() === Task::STATUS_DONE
+        ));
+
+        $inProgressTasks = count(array_filter(
+            $tasks->toArray(),
+            fn(Task $task) => $task->getStatus() === Task::STATUS_IN_PROGRESS
+        ));
+
+        // Calcul de la progression :
+        // - Tâches terminées = 100%
+        // - Tâches en cours = 50%
+        // - Tâches à faire = 0%
+        $progress = (($completedTasks * 100) + ($inProgressTasks * 50)) / $totalTasks;
+        $channel->setProgress($progress);
     }
 }

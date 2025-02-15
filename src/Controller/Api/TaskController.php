@@ -53,6 +53,7 @@ class TaskController extends AbstractController
             $task->setUpdatedAt(new \DateTime());
             
             $this->entityManager->persist($task);
+            $this->updateChannelProgress($channel);
             $this->entityManager->flush();
             
             return $this->json(['success' => true, 'task' => [
@@ -89,6 +90,7 @@ class TaskController extends AbstractController
         $task->setStatus($data['status']);
         $task->setProgress($data['status'] === Task::STATUS_DONE ? 100 : ($data['status'] === Task::STATUS_IN_PROGRESS ? 50 : 0));
         
+        $this->updateChannelProgress($task->getChannel());
         $this->entityManager->flush();
         
         return $this->json(['success' => true, 'task' => [
@@ -103,9 +105,39 @@ class TaskController extends AbstractController
     #[Route('/{id}', methods: ['DELETE'])]
     public function delete(Task $task): JsonResponse
     {
+        $channel = $task->getChannel();
         $this->entityManager->remove($task);
+        $this->updateChannelProgress($channel);
         $this->entityManager->flush();
         
         return $this->json(['success' => true]);
+    }
+
+    private function updateChannelProgress(Channel $channel): void
+    {
+        $tasks = $channel->getTasks();
+        $totalTasks = count($tasks);
+
+        if ($totalTasks === 0) {
+            $channel->setProgress(0);
+            return;
+        }
+
+        $completedTasks = count(array_filter(
+            $tasks->toArray(),
+            fn(Task $task) => $task->getStatus() === Task::STATUS_DONE
+        ));
+
+        $inProgressTasks = count(array_filter(
+            $tasks->toArray(),
+            fn(Task $task) => $task->getStatus() === Task::STATUS_IN_PROGRESS
+        ));
+
+        // Calcul de la progression :
+        // - Tâches terminées = 100%
+        // - Tâches en cours = 50%
+        // - Tâches à faire = 0%
+        $progress = (($completedTasks * 100) + ($inProgressTasks * 50)) / $totalTasks;
+        $channel->setProgress($progress);
     }
 }
