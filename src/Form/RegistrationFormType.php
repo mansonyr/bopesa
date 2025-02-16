@@ -3,6 +3,7 @@
 namespace App\Form;
 
 use App\Entity\Client;
+use App\Entity\Project;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
@@ -35,16 +36,18 @@ class RegistrationFormType extends AbstractType
                     ]),
                 ],
             ])
-            ->add('projectName', null, [
+            ->add('project', TextType::class, [
                 'label' => 'Nom du projet',
+                'mapped' => false,
                 'constraints' => [
                     new NotBlank([
                         'message' => 'Veuillez entrer le nom de votre projet',
                     ]),
                 ],
             ])
-            ->add('website', null, [
+            ->add('website', TextType::class, [
                 'label' => 'Site web',
+                'mapped' => false,
                 'required' => false,
             ])
             ->add('plainPassword', PasswordType::class, [

@@ -25,11 +25,6 @@ class Client implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(length: 255)]
     private ?string $fullName = null;
 
-    #[ORM\Column(length: 255)]
-    private ?string $projectName = null;
-
-    #[ORM\Column(length: 255, nullable: true)]
-    private ?string $website = null;
 
     /**
      * @var list<string> The user roles
@@ -73,27 +68,6 @@ class Client implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    public function getProjectName(): ?string
-    {
-        return $this->projectName;
-    }
-
-    public function setProjectName(string $projectName): static
-    {
-        $this->projectName = $projectName;
-        return $this;
-    }
-
-    public function getWebsite(): ?string
-    {
-        return $this->website;
-    }
-
-    public function setWebsite(?string $website): static
-    {
-        $this->website = $website;
-        return $this;
-    }
 
     public function getEmail(): ?string
     {

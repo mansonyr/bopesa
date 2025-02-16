@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Client;
+use App\Entity\Project;
 use App\Form\RegistrationFormType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -41,7 +42,16 @@ class RegistrationController extends AbstractController
             // Set default role
             $user->setRoles(['ROLE_USER']);
 
+            // Create project
+            $project = new Project();
+            $project->setName($form->get('project')->getData());
+            $project->setWebsite($form->get('website')->getData());
+            $project->setUtilisateur($user);
+            $project->setCreatedAt(new \DateTime());
+            $project->setUpdatedAt(new \DateTime());
+
             $entityManager->persist($user);
+            $entityManager->persist($project);
             $entityManager->flush();
 
             // Copier les canaux par défaut pour le nouvel utilisateur

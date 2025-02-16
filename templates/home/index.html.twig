@@ -5,9 +5,15 @@
 {% block stylesheets %}
     {{ parent() }}
     <style>
+        body {
+            background: #e9ebf5 !important;
+        }
+
         .landing-container {
             min-height: 100vh;
-            background: #ffffff;
+            background: #e9ebf5;
+            width: 100%;
+            overflow-x: hidden;
         }
 
         .landing-nav {
@@ -36,7 +42,7 @@
         }
 
         .nav-link {
-            color: #4b5563;
+            color: #1a1920;
             text-decoration: none;
             font-weight: 500;
             transition: color 0.2s;
@@ -63,7 +69,7 @@
         .hero-section {
             padding: 4rem 0;
             position: relative;
-            overflow: hidden;
+            width: 100%;
         }
 
         .hero-content {
@@ -90,32 +96,54 @@
         .hero-title {
             font-size: 2.5rem;
             font-weight: bold;
-            color: #1a1a1a;
+            color: #1a1920;
             margin-bottom: 1.5rem;
             line-height: 1.2;
         }
 
         .hero-subtitle {
             font-size: 1.1rem;
-            color: #666;
+            color: #1a1920;
             margin-bottom: 2rem;
             line-height: 1.6;
         }
 
+        .features-grid-container {
+            width: 100%;
+            overflow: hidden;
+            background: #e9ebf5;
+            padding: 4rem 0;
+        }
+
         .features-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
+            display: flex;
             gap: 2rem;
-            margin-top: 4rem;
             padding: 0 2rem;
+            overflow-x: auto;
+            scroll-snap-type: x mandatory;
+            scroll-behavior: smooth;
+            -webkit-overflow-scrolling: touch;
+            scrollbar-width: none; /* Pour Firefox */
+            -ms-overflow-style: none; /* Pour Internet Explorer et Edge */
+            margin: 0 auto;
+            position: relative;
+        }
+
+        .features-grid::-webkit-scrollbar {
+            display: none; /* Pour Chrome, Safari et Opera */
         }
 
         .feature-card {
+            flex: 0 0 300px;
+            scroll-snap-align: start;
+            min-width: 300px;
+            width: 300px;
             background: white;
             padding: 2rem;
             border-radius: 1rem;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
             text-align: center;
+            border: 1px solid rgba(0, 0, 0, 0.1);
         }
 
         .feature-icon {
@@ -128,11 +156,11 @@
             font-size: 1.25rem;
             font-weight: 600;
             margin-bottom: 1rem;
-            color: #1a1a1a;
+            color: #1a1920;
         }
 
         .feature-description {
-            color: #666;
+            color: #1a1920;
             line-height: 1.5;
         }
 
@@ -180,8 +208,10 @@
                 text-align: center;
             }
 
-            .features-grid {
-                grid-template-columns: 1fr;
+            .feature-card {
+                flex: 0 0 80vw;
+                min-width: 80vw;
+                width: 80vw;
             }
 
             .buttons-container {
@@ -189,6 +219,64 @@
             }
         }
     </style>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const featuresGrid = document.querySelector('.features-grid');
+            let scrollInterval;
+            let isPaused = false;
+
+            function startAutoScroll() {
+                if (!isPaused) {
+                    const cardWidth = document.querySelector('.feature-card').offsetWidth;
+                    const currentScroll = featuresGrid.scrollLeft;
+                    const nextPosition = currentScroll + cardWidth + 32; // 32 pour le gap
+                    const maxScroll = featuresGrid.scrollWidth - featuresGrid.clientWidth;
+
+                    if (currentScroll >= maxScroll) {
+                        // Retour au début si on est à la fin
+                        featuresGrid.scrollTo({
+                            left: 0,
+                            behavior: 'smooth'
+                        });
+                    } else {
+                        featuresGrid.scrollTo({
+                            left: nextPosition,
+                            behavior: 'smooth'
+                        });
+                    }
+                }
+            }
+
+            // Démarrer le défilement automatique
+            scrollInterval = setInterval(startAutoScroll, 3000); // Défilement toutes les 3 secondes
+
+            // Mettre en pause le défilement au survol
+            featuresGrid.addEventListener('mouseenter', () => {
+                isPaused = true;
+            });
+
+            // Reprendre le défilement quand la souris quitte
+            featuresGrid.addEventListener('mouseleave', () => {
+                isPaused = false;
+            });
+
+            // Mettre en pause lors du toucher sur mobile
+            featuresGrid.addEventListener('touchstart', () => {
+                isPaused = true;
+            });
+
+            // Reprendre après le toucher
+            featuresGrid.addEventListener('touchend', () => {
+                setTimeout(() => {
+                    isPaused = false;
+                }, 3000); // Attendre 3 secondes après le dernier toucher
+            });
+        });
+    </script>
 {% endblock %}
 
 {% block body %}
@@ -249,7 +337,68 @@
         </section>
 
         <section class="features-section">
-            <div class="features-grid">
+            <div class="features-grid-container">
+                <div class="features-grid">
+                <div class="feature-card">
+                    <img src="{{ asset('images/icons/time-tracking.svg') }}" alt="Time tracking" class="feature-icon">
+                    <h3 class="feature-title">Time tracking</h3>
+                    <p class="feature-description">Notre application vous aide à gagner du temps sur le suivi de l'activité, du temps et plus encore. Vous pouvez être sûr que tout est sous votre contrôle.</p>
+                </div>
+                <div class="feature-card">
+                    <img src="{{ asset('images/icons/monitoring.svg') }}" alt="Activity monitoring" class="feature-icon">
+                    <h3 class="feature-title">Activity monitoring</h3>
+                    <p class="feature-description">Notre application vous aide à gagner du temps sur le suivi de l'activité, du temps, des revenus et plus encore. Vous pouvez être sûr que tout est sous votre contrôle.</p>
+                </div>
+                <div class="feature-card">
+                    <img src="{{ asset('images/icons/reports.svg') }}" alt="Generating reports" class="feature-icon">
+                    <h3 class="feature-title">Generating reports</h3>
+                    <p class="feature-description">Notre application vous aide à gagner du temps sur le suivi de l'activité, du temps, des revenus et plus encore. Vous pouvez être sûr que tout est sous votre contrôle.</p>
+                </div>
+                <div class="feature-card">
+                    <img src="{{ asset('images/icons/time-tracking.svg') }}" alt="Time tracking" class="feature-icon">
+                    <h3 class="feature-title">Time tracking</h3>
+                    <p class="feature-description">Notre application vous aide à gagner du temps sur le suivi de l'activité, du temps et plus encore. Vous pouvez être sûr que tout est sous votre contrôle.</p>
+                </div>
+                <div class="feature-card">
+                    <img src="{{ asset('images/icons/monitoring.svg') }}" alt="Activity monitoring" class="feature-icon">
+                    <h3 class="feature-title">Activity monitoring</h3>
+                    <p class="feature-description">Notre application vous aide à gagner du temps sur le suivi de l'activité, du temps, des revenus et plus encore. Vous pouvez être sûr que tout est sous votre contrôle.</p>
+                </div>
+                <div class="feature-card">
+                    <img src="{{ asset('images/icons/reports.svg') }}" alt="Generating reports" class="feature-icon">
+                    <h3 class="feature-title">Generating reports</h3>
+                    <p class="feature-description">Notre application vous aide à gagner du temps sur le suivi de l'activité, du temps, des revenus et plus encore. Vous pouvez être sûr que tout est sous votre contrôle.</p>
+                </div>
+                <div class="feature-card">
+                    <img src="{{ asset('images/icons/time-tracking.svg') }}" alt="Time tracking" class="feature-icon">
+                    <h3 class="feature-title">Time tracking</h3>
+                    <p class="feature-description">Notre application vous aide à gagner du temps sur le suivi de l'activité, du temps et plus encore. Vous pouvez être sûr que tout est sous votre contrôle.</p>
+                </div>
+                <div class="feature-card">
+                    <img src="{{ asset('images/icons/monitoring.svg') }}" alt="Activity monitoring" class="feature-icon">
+                    <h3 class="feature-title">Activity monitoring</h3>
+                    <p class="feature-description">Notre application vous aide à gagner du temps sur le suivi de l'activité, du temps, des revenus et plus encore. Vous pouvez être sûr que tout est sous votre contrôle.</p>
+                </div>
+                <div class="feature-card">
+                    <img src="{{ asset('images/icons/reports.svg') }}" alt="Generating reports" class="feature-icon">
+                    <h3 class="feature-title">Generating reports</h3>
+                    <p class="feature-description">Notre application vous aide à gagner du temps sur le suivi de l'activité, du temps, des revenus et plus encore. Vous pouvez être sûr que tout est sous votre contrôle.</p>
+                </div>
+                <div class="feature-card">
+                    <img src="{{ asset('images/icons/time-tracking.svg') }}" alt="Time tracking" class="feature-icon">
+                    <h3 class="feature-title">Time tracking</h3>
+                    <p class="feature-description">Notre application vous aide à gagner du temps sur le suivi de l'activité, du temps et plus encore. Vous pouvez être sûr que tout est sous votre contrôle.</p>
+                </div>
+                <div class="feature-card">
+                    <img src="{{ asset('images/icons/monitoring.svg') }}" alt="Activity monitoring" class="feature-icon">
+                    <h3 class="feature-title">Activity monitoring</h3>
+                    <p class="feature-description">Notre application vous aide à gagner du temps sur le suivi de l'activité, du temps, des revenus et plus encore. Vous pouvez être sûr que tout est sous votre contrôle.</p>
+                </div>
+                <div class="feature-card">
+                    <img src="{{ asset('images/icons/reports.svg') }}" alt="Generating reports" class="feature-icon">
+                    <h3 class="feature-title">Generating reports</h3>
+                    <p class="feature-description">Notre application vous aide à gagner du temps sur le suivi de l'activité, du temps, des revenus et plus encore. Vous pouvez être sûr que tout est sous votre contrôle.</p>
+                </div>
                 <div class="feature-card">
                     <img src="{{ asset('images/icons/time-tracking.svg') }}" alt="Time tracking" class="feature-icon">
                     <h3 class="feature-title">Time tracking</h3>

@@ -19,7 +19,7 @@
                     --primary-color: #2563eb;
                     --primary-dark: #1e40af;
                     --sidebar-bg: #1a1a1a;
-                    --content-bg: #f1f5f9;
+                    --content-bg: #1a1920;
                 }
 
                 @media (max-width: 768px) {
@@ -621,5 +621,8 @@
         {% block javascripts %}
             {{ encore_entry_script_tags('app') }}
         {% endblock %}
+        <footer style="background-color: #1a1920; padding: 1rem; text-align: center; position: relative; bottom: 0; width: 100%; color: white;">
+            ©2025 lemlist - All rights reserved.
+        </footer>
     </body>
 </html>
