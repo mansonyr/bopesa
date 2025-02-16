@@ -892,11 +892,10 @@
                 <div class="modal-actions">
                     <button type="button" onclick="hideModal('editTaskModal')" class="btn-cancel">Annuler</button>
                     <button type="submit" class="btn-primary">Enregistrer</button>
+                    <button type="button" onclick="deleteTask(document.getElementById('editTaskId').value)" class="btn-danger">Supprimer</button>
+           
                 </div>
             </form>
-            <div class="modal-actions mt-4">
-                <button type="button" onclick="deleteTask(document.getElementById('editTaskId').value)" class="btn-danger">Supprimer</button>
-            </div>
         </div>
     </div>
 
@@ -975,11 +974,10 @@
                 <div class="modal-actions">
                     <button type="button" onclick="hideModal('editSubtaskModal')" class="btn-cancel">Annuler</button>
                     <button type="submit" class="btn-primary">Enregistrer</button>
+                    <button type="button" onclick="deleteSubtask(document.getElementById('editSubtaskId').value)" class="btn-danger">Supprimer</button>
+          
                 </div>
             </form>
-            <div class="modal-actions mt-4">
-                <button type="button" onclick="deleteSubtask(document.getElementById('editSubtaskId').value)" class="btn-danger">Supprimer</button>
-            </div>
         </div>
     </div>
 {% endblock %}
