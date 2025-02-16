@@ -134,16 +134,60 @@
         }
 
         .feature-card {
-            flex: 0 0 300px;
+            flex: 0 0 400px;
             scroll-snap-align: start;
-            min-width: 300px;
-            width: 300px;
+            min-width: 400px;
+            width: 400px;
             background: white;
-            padding: 2rem;
             border-radius: 1rem;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
-            text-align: center;
             border: 1px solid rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+
+        .feature-card-content {
+            padding: 2rem;
+            text-align: center;
+        }
+
+        .feature-stats {
+            display: flex;
+            border-top: 1px solid #E0E7FA;
+            margin-top: 1rem;
+            background-color: #E0E7FA;
+        }
+
+        .stat-item {
+            flex: 1;
+            padding: 1rem;
+            text-align: center;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            border-right: 1px solid #155CE7;
+        }
+
+        .stat-item:last-child {
+            border-right: none;
+        }
+
+        .stat-value {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #155CE7;
+            margin-bottom: 0.25rem;
+            line-height: 1;
+            display: block;
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            color: #1a1920;
+            font-weight: 500;
+            line-height: 1;
+            display: block;
         }
 
         .feature-icon {
@@ -209,9 +253,9 @@
             }
 
             .feature-card {
-                flex: 0 0 80vw;
-                min-width: 80vw;
-                width: 80vw;
+                flex: 0 0 85vw;
+                min-width: 85vw;
+                width: 85vw;
             }
 
             .buttons-container {
@@ -340,79 +384,319 @@
             <div class="features-grid-container">
                 <div class="features-grid">
                 <div class="feature-card">
-                    <img src="{{ asset('images/icons/time-tracking.svg') }}" alt="Time tracking" class="feature-icon">
-                    <h3 class="feature-title">Time tracking</h3>
-                    <p class="feature-description">Notre application vous aide à gagner du temps sur le suivi de l'activité, du temps et plus encore. Vous pouvez être sûr que tout est sous votre contrôle.</p>
+                    <div class="feature-card-content">
+                        <img src="{{ asset('images/icons/time-tracking.svg') }}" alt="Time tracking" class="feature-icon">
+                        <h3 class="feature-title">Time tracking</h3>
+                        <p class="feature-description">Notre application vous aide à gagner du temps sur le suivi de l'activité, du temps et plus encore. Vous pouvez être sûr que tout est sous votre contrôle.</p>
+                    </div>
+                    <div class="feature-stats">
+                        <div class="stat-item">
+                            <div class="stat-value">24</div>
+                            <div class="stat-label">Tâches</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-value">96</div>
+                            <div class="stat-label">Sous-tâches</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-value">85%</div>
+                            <div class="stat-label">Complété</div>
+                        </div>
+                    </div>
                 </div>
                 <div class="feature-card">
-                    <img src="{{ asset('images/icons/monitoring.svg') }}" alt="Activity monitoring" class="feature-icon">
-                    <h3 class="feature-title">Activity monitoring</h3>
-                    <p class="feature-description">Notre application vous aide à gagner du temps sur le suivi de l'activité, du temps, des revenus et plus encore. Vous pouvez être sûr que tout est sous votre contrôle.</p>
+                    <div class="feature-card-content">
+                        <img src="{{ asset('images/icons/monitoring.svg') }}" alt="Activity monitoring" class="feature-icon">
+                        <h3 class="feature-title">Activity monitoring</h3>
+                        <p class="feature-description">Notre application vous aide à gagner du temps sur le suivi de l'activité, du temps, des revenus et plus encore. Vous pouvez être sûr que tout est sous votre contrôle.</p>
+                    </div>
+                    <div class="feature-stats">
+                        <div class="stat-item">
+                            <div class="stat-value">32</div>
+                            <div class="stat-label">Tâches</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-value">128</div>
+                            <div class="stat-label">Sous-tâches</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-value">92%</div>
+                            <div class="stat-label">Complété</div>
+                        </div>
+                    </div>
                 </div>
                 <div class="feature-card">
-                    <img src="{{ asset('images/icons/reports.svg') }}" alt="Generating reports" class="feature-icon">
-                    <h3 class="feature-title">Generating reports</h3>
-                    <p class="feature-description">Notre application vous aide à gagner du temps sur le suivi de l'activité, du temps, des revenus et plus encore. Vous pouvez être sûr que tout est sous votre contrôle.</p>
+                    <div class="feature-card-content">
+                        <img src="{{ asset('images/icons/reports.svg') }}" alt="Generating reports" class="feature-icon">
+                        <h3 class="feature-title">Generating reports</h3>
+                        <p class="feature-description">Notre application vous aide à gagner du temps sur le suivi de l'activité, du temps, des revenus et plus encore. Vous pouvez être sûr que tout est sous votre contrôle.</p>
+                    </div>
+                    <div class="feature-stats">
+                        <div class="stat-item">
+                            <div class="stat-value">18</div>
+                            <div class="stat-label">Tâches</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-value">72</div>
+                            <div class="stat-label">Sous-tâches</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-value">78%</div>
+                            <div class="stat-label">Complété</div>
+                        </div>
+                    </div>
                 </div>
                 <div class="feature-card">
-                    <img src="{{ asset('images/icons/time-tracking.svg') }}" alt="Time tracking" class="feature-icon">
-                    <h3 class="feature-title">Time tracking</h3>
-                    <p class="feature-description">Notre application vous aide à gagner du temps sur le suivi de l'activité, du temps et plus encore. Vous pouvez être sûr que tout est sous votre contrôle.</p>
+                    <div class="feature-card-content">
+                        <img src="{{ asset('images/icons/time-tracking.svg') }}" alt="Time tracking" class="feature-icon">
+                        <h3 class="feature-title">Time tracking</h3>
+                        <p class="feature-description">Notre application vous aide à gagner du temps sur le suivi de l'activité, du temps et plus encore. Vous pouvez être sûr que tout est sous votre contrôle.</p>
+                    </div>
+                    <div class="feature-stats">
+                        <div class="stat-item">
+                            <div class="stat-value">24</div>
+                            <div class="stat-label">Tâches</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-value">96</div>
+                            <div class="stat-label">Sous-tâches</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-value">85%</div>
+                            <div class="stat-label">Complété</div>
+                        </div>
+                    </div>
                 </div>
                 <div class="feature-card">
-                    <img src="{{ asset('images/icons/monitoring.svg') }}" alt="Activity monitoring" class="feature-icon">
-                    <h3 class="feature-title">Activity monitoring</h3>
-                    <p class="feature-description">Notre application vous aide à gagner du temps sur le suivi de l'activité, du temps, des revenus et plus encore. Vous pouvez être sûr que tout est sous votre contrôle.</p>
+                    <div class="feature-card-content">
+                        <img src="{{ asset('images/icons/monitoring.svg') }}" alt="Activity monitoring" class="feature-icon">
+                        <h3 class="feature-title">Activity monitoring</h3>
+                        <p class="feature-description">Notre application vous aide à gagner du temps sur le suivi de l'activité, du temps, des revenus et plus encore. Vous pouvez être sûr que tout est sous votre contrôle.</p>
+                    </div>
+                    <div class="feature-stats">
+                        <div class="stat-item">
+                            <div class="stat-value">32</div>
+                            <div class="stat-label">Tâches</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-value">128</div>
+                            <div class="stat-label">Sous-tâches</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-value">92%</div>
+                            <div class="stat-label">Complété</div>
+                        </div>
+                    </div>
                 </div>
                 <div class="feature-card">
-                    <img src="{{ asset('images/icons/reports.svg') }}" alt="Generating reports" class="feature-icon">
-                    <h3 class="feature-title">Generating reports</h3>
-                    <p class="feature-description">Notre application vous aide à gagner du temps sur le suivi de l'activité, du temps, des revenus et plus encore. Vous pouvez être sûr que tout est sous votre contrôle.</p>
+                    <div class="feature-card-content">
+                        <img src="{{ asset('images/icons/reports.svg') }}" alt="Generating reports" class="feature-icon">
+                        <h3 class="feature-title">Generating reports</h3>
+                        <p class="feature-description">Notre application vous aide à gagner du temps sur le suivi de l'activité, du temps, des revenus et plus encore. Vous pouvez être sûr que tout est sous votre contrôle.</p>
+                    </div>
+                    <div class="feature-stats">
+                        <div class="stat-item">
+                            <div class="stat-value">18</div>
+                            <div class="stat-label">Tâches</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-value">72</div>
+                            <div class="stat-label">Sous-tâches</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-value">78%</div>
+                            <div class="stat-label">Complété</div>
+                        </div>
+                    </div>
                 </div>
                 <div class="feature-card">
-                    <img src="{{ asset('images/icons/time-tracking.svg') }}" alt="Time tracking" class="feature-icon">
-                    <h3 class="feature-title">Time tracking</h3>
-                    <p class="feature-description">Notre application vous aide à gagner du temps sur le suivi de l'activité, du temps et plus encore. Vous pouvez être sûr que tout est sous votre contrôle.</p>
+                    <div class="feature-card-content">
+                        <img src="{{ asset('images/icons/time-tracking.svg') }}" alt="Time tracking" class="feature-icon">
+                        <h3 class="feature-title">Time tracking</h3>
+                        <p class="feature-description">Notre application vous aide à gagner du temps sur le suivi de l'activité, du temps et plus encore. Vous pouvez être sûr que tout est sous votre contrôle.</p>
+                    </div>
+                    <div class="feature-stats">
+                        <div class="stat-item">
+                            <div class="stat-value">24</div>
+                            <div class="stat-label">Tâches</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-value">96</div>
+                            <div class="stat-label">Sous-tâches</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-value">85%</div>
+                            <div class="stat-label">Complété</div>
+                        </div>
+                    </div>
                 </div>
                 <div class="feature-card">
-                    <img src="{{ asset('images/icons/monitoring.svg') }}" alt="Activity monitoring" class="feature-icon">
-                    <h3 class="feature-title">Activity monitoring</h3>
-                    <p class="feature-description">Notre application vous aide à gagner du temps sur le suivi de l'activité, du temps, des revenus et plus encore. Vous pouvez être sûr que tout est sous votre contrôle.</p>
+                    <div class="feature-card-content">
+                        <img src="{{ asset('images/icons/monitoring.svg') }}" alt="Activity monitoring" class="feature-icon">
+                        <h3 class="feature-title">Activity monitoring</h3>
+                        <p class="feature-description">Notre application vous aide à gagner du temps sur le suivi de l'activité, du temps, des revenus et plus encore. Vous pouvez être sûr que tout est sous votre contrôle.</p>
+                    </div>
+                    <div class="feature-stats">
+                        <div class="stat-item">
+                            <div class="stat-value">32</div>
+                            <div class="stat-label">Tâches</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-value">128</div>
+                            <div class="stat-label">Sous-tâches</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-value">92%</div>
+                            <div class="stat-label">Complété</div>
+                        </div>
+                    </div>
                 </div>
                 <div class="feature-card">
-                    <img src="{{ asset('images/icons/reports.svg') }}" alt="Generating reports" class="feature-icon">
-                    <h3 class="feature-title">Generating reports</h3>
-                    <p class="feature-description">Notre application vous aide à gagner du temps sur le suivi de l'activité, du temps, des revenus et plus encore. Vous pouvez être sûr que tout est sous votre contrôle.</p>
+                    <div class="feature-card-content">
+                        <img src="{{ asset('images/icons/reports.svg') }}" alt="Generating reports" class="feature-icon">
+                        <h3 class="feature-title">Generating reports</h3>
+                        <p class="feature-description">Notre application vous aide à gagner du temps sur le suivi de l'activité, du temps, des revenus et plus encore. Vous pouvez être sûr que tout est sous votre contrôle.</p>
+                    </div>
+                    <div class="feature-stats">
+                        <div class="stat-item">
+                            <div class="stat-value">18</div>
+                            <div class="stat-label">Tâches</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-value">72</div>
+                            <div class="stat-label">Sous-tâches</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-value">78%</div>
+                            <div class="stat-label">Complété</div>
+                        </div>
+                    </div>
                 </div>
                 <div class="feature-card">
-                    <img src="{{ asset('images/icons/time-tracking.svg') }}" alt="Time tracking" class="feature-icon">
-                    <h3 class="feature-title">Time tracking</h3>
-                    <p class="feature-description">Notre application vous aide à gagner du temps sur le suivi de l'activité, du temps et plus encore. Vous pouvez être sûr que tout est sous votre contrôle.</p>
+                    <div class="feature-card-content">
+                        <img src="{{ asset('images/icons/time-tracking.svg') }}" alt="Time tracking" class="feature-icon">
+                        <h3 class="feature-title">Time tracking</h3>
+                        <p class="feature-description">Notre application vous aide à gagner du temps sur le suivi de l'activité, du temps et plus encore. Vous pouvez être sûr que tout est sous votre contrôle.</p>
+                    </div>
+                    <div class="feature-stats">
+                        <div class="stat-item">
+                            <div class="stat-value">24</div>
+                            <div class="stat-label">Tâches</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-value">96</div>
+                            <div class="stat-label">Sous-tâches</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-value">85%</div>
+                            <div class="stat-label">Complété</div>
+                        </div>
+                    </div>
                 </div>
                 <div class="feature-card">
-                    <img src="{{ asset('images/icons/monitoring.svg') }}" alt="Activity monitoring" class="feature-icon">
-                    <h3 class="feature-title">Activity monitoring</h3>
-                    <p class="feature-description">Notre application vous aide à gagner du temps sur le suivi de l'activité, du temps, des revenus et plus encore. Vous pouvez être sûr que tout est sous votre contrôle.</p>
+                    <div class="feature-card-content">
+                        <img src="{{ asset('images/icons/monitoring.svg') }}" alt="Activity monitoring" class="feature-icon">
+                        <h3 class="feature-title">Activity monitoring</h3>
+                        <p class="feature-description">Notre application vous aide à gagner du temps sur le suivi de l'activité, du temps, des revenus et plus encore. Vous pouvez être sûr que tout est sous votre contrôle.</p>
+                    </div>
+                    <div class="feature-stats">
+                        <div class="stat-item">
+                            <div class="stat-value">32</div>
+                            <div class="stat-label">Tâches</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-value">128</div>
+                            <div class="stat-label">Sous-tâches</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-value">92%</div>
+                            <div class="stat-label">Complété</div>
+                        </div>
+                    </div>
                 </div>
                 <div class="feature-card">
-                    <img src="{{ asset('images/icons/reports.svg') }}" alt="Generating reports" class="feature-icon">
-                    <h3 class="feature-title">Generating reports</h3>
-                    <p class="feature-description">Notre application vous aide à gagner du temps sur le suivi de l'activité, du temps, des revenus et plus encore. Vous pouvez être sûr que tout est sous votre contrôle.</p>
+                    <div class="feature-card-content">
+                        <img src="{{ asset('images/icons/reports.svg') }}" alt="Generating reports" class="feature-icon">
+                        <h3 class="feature-title">Generating reports</h3>
+                        <p class="feature-description">Notre application vous aide à gagner du temps sur le suivi de l'activité, du temps, des revenus et plus encore. Vous pouvez être sûr que tout est sous votre contrôle.</p>
+                    </div>
+                    <div class="feature-stats">
+                        <div class="stat-item">
+                            <div class="stat-value">18</div>
+                            <div class="stat-label">Tâches</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-value">72</div>
+                            <div class="stat-label">Sous-tâches</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-value">78%</div>
+                            <div class="stat-label">Complété</div>
+                        </div>
+                    </div>
                 </div>
                 <div class="feature-card">
-                    <img src="{{ asset('images/icons/time-tracking.svg') }}" alt="Time tracking" class="feature-icon">
-                    <h3 class="feature-title">Time tracking</h3>
-                    <p class="feature-description">Notre application vous aide à gagner du temps sur le suivi de l'activité, du temps et plus encore. Vous pouvez être sûr que tout est sous votre contrôle.</p>
+                    <div class="feature-card-content">
+                        <img src="{{ asset('images/icons/time-tracking.svg') }}" alt="Time tracking" class="feature-icon">
+                        <h3 class="feature-title">Time tracking</h3>
+                        <p class="feature-description">Notre application vous aide à gagner du temps sur le suivi de l'activité, du temps et plus encore. Vous pouvez être sûr que tout est sous votre contrôle.</p>
+                    </div>
+                    <div class="feature-stats">
+                        <div class="stat-item">
+                            <div class="stat-value">24</div>
+                            <div class="stat-label">Tâches</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-value">96</div>
+                            <div class="stat-label">Sous-tâches</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-value">85%</div>
+                            <div class="stat-label">Complété</div>
+                        </div>
+                    </div>
                 </div>
                 <div class="feature-card">
-                    <img src="{{ asset('images/icons/monitoring.svg') }}" alt="Activity monitoring" class="feature-icon">
-                    <h3 class="feature-title">Activity monitoring</h3>
-                    <p class="feature-description">Notre application vous aide à gagner du temps sur le suivi de l'activité, du temps, des revenus et plus encore. Vous pouvez être sûr que tout est sous votre contrôle.</p>
+                    <div class="feature-card-content">
+                        <img src="{{ asset('images/icons/monitoring.svg') }}" alt="Activity monitoring" class="feature-icon">
+                        <h3 class="feature-title">Activity monitoring</h3>
+                        <p class="feature-description">Notre application vous aide à gagner du temps sur le suivi de l'activité, du temps, des revenus et plus encore. Vous pouvez être sûr que tout est sous votre contrôle.</p>
+                    </div>
+                    <div class="feature-stats">
+                        <div class="stat-item">
+                            <div class="stat-value">32</div>
+                            <div class="stat-label">Tâches</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-value">128</div>
+                            <div class="stat-label">Sous-tâches</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-value">92%</div>
+                            <div class="stat-label">Complété</div>
+                        </div>
+                    </div>
                 </div>
                 <div class="feature-card">
-                    <img src="{{ asset('images/icons/reports.svg') }}" alt="Generating reports" class="feature-icon">
-                    <h3 class="feature-title">Generating reports</h3>
-                    <p class="feature-description">Notre application vous aide à gagner du temps sur le suivi de l'activité, du temps, des revenus et plus encore. Vous pouvez être sûr que tout est sous votre contrôle.</p>
+                    <div class="feature-card-content">
+                        <img src="{{ asset('images/icons/reports.svg') }}" alt="Generating reports" class="feature-icon">
+                        <h3 class="feature-title">Generating reports</h3>
+                        <p class="feature-description">Notre application vous aide à gagner du temps sur le suivi de l'activité, du temps, des revenus et plus encore. Vous pouvez être sûr que tout est sous votre contrôle.</p>
+                    </div>
+                    <div class="feature-stats">
+                        <div class="stat-item">
+                            <div class="stat-value">18</div>
+                            <div class="stat-label">Tâches</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-value">72</div>
+                            <div class="stat-label">Sous-tâches</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-value">78%</div>
+                            <div class="stat-label">Complété</div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </section>
