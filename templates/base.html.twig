@@ -618,6 +618,13 @@
         {% endif %}
 
         {% block body %}{% endblock %}
+
+        {% if app.request.get('_route') in ['app_home', 'app_login', 'app_register'] %}
+            <footer class="footer" style="background: #1a1920; color: white; text-align: center; padding: 1rem; position: relative; width: 100%;">
+                ©2025 lemlist - All rights reserved.
+            </footer>
+        {% endif %}
+
         {% block javascripts %}
             {{ encore_entry_script_tags('app') }}
         {% endblock %}
