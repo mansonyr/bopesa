@@ -7,36 +7,175 @@
     <style>
         .admin-container {
             padding: 0;
+            max-width: 100%;
+            overflow-x: hidden;
         }
 
         .admin-header {
             margin-bottom: 2rem;
-        }
-        .table-container {
-            width: 100%;
-            overflow-x: auto;
-            margin-bottom: 1rem;
+            padding: 1.5rem;
             background-color: white;
             border-radius: 0.5rem;
             box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
         }
 
+        .admin-header h1 {
+            margin: 0;
+            font-size: 1.5rem;
+            color: var(--admin-text);
+        }
+
+        .table-wrapper {
+            margin: 0 1.5rem;
+        }
+
+        .admin-container {
+            padding: 0;
+            width: 100%;
+            max-width: 100%;
+            overflow-x: hidden;
+        }
+
+        .admin-header {
+            margin-bottom: 2rem;
+            padding: 0 1rem;
+        }
+
+        .table-wrapper {
+            position: relative;
+            width: 100%;
+            max-width: 100%;
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+            margin: 0 -1rem;
+            padding: 0 1rem;
+        }
+
+        .table-container {
+            background-color: white;
+            border-radius: 0.5rem;
+            box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
+            width: 100%;
+            min-width: 100%;
+            overflow: hidden;
+        }
+
         .table {
             width: 100%;
-            min-width: 800px;
             border-collapse: collapse;
             background-color: white;
+            margin: 0;
+            table-layout: fixed;
         }
+
+        /* Définir des largeurs fixes pour les colonnes */
+        .table th.col-id,
+        .table td.col-id { width: 60px; }
+        .table th.col-name,
+        .table td.col-name { width: 200px; }
+        .table th.col-description,
+        .table td.col-description { width: 300px; }
+        .table th.col-default,
+        .table td.col-default { width: 100px; }
+        .table th.col-actions,
+        .table td.col-actions { width: 200px; }
+
         .table th,
         .table td {
             padding: 1rem;
             text-align: left;
-            border-bottom: 1px solid #e5e7eb;
+            vertical-align: middle;
         }
+
         .table th {
+            position: sticky;
+            top: 0;
             background-color: #f3f4f6;
             font-weight: 600;
             color: #374151;
+            z-index: 1;
+            white-space: nowrap;
+        }
+
+        .table td {
+            background-color: white;
+            border-top: 1px solid #e5e7eb;
+        }
+
+        /* Largeurs de colonnes fixes */
+        .table td:nth-child(1),
+        .table th:nth-child(1) {
+            width: 60px;
+            min-width: 60px;
+        }
+
+        .table td:nth-child(2),
+        .table th:nth-child(2) {
+            width: 150px;
+            min-width: 150px;
+        }
+
+        .table td:nth-child(3),
+        .table th:nth-child(3) {
+            width: 250px;
+            min-width: 250px;
+        }
+
+        .table td:nth-child(4),
+        .table th:nth-child(4) {
+            width: 100px;
+            min-width: 100px;
+        }
+
+        .table td:nth-child(5),
+        .table th:nth-child(5) {
+            width: 200px;
+            min-width: 200px;
+        }
+
+        /* Gestion du texte long */
+        .truncate {
+            max-width: 300px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            display: block;
+        }
+
+        /* Styles pour les actions */
+        .actions {
+            display: flex;
+            gap: 0.5rem;
+            justify-content: flex-start;
+            align-items: center;
+        }
+
+        @media (max-width: 768px) {
+            .admin-container {
+                margin: 0;
+                padding: 0;
+            }
+
+            .table-responsive {
+                border-radius: 0;
+                margin: 0;
+            }
+
+            .actions {
+                display: flex;
+                flex-wrap: nowrap;
+                gap: 0.5rem;
+            }
+
+            .actions .btn {
+                padding: 0.5rem;
+                font-size: 0.875rem;
+            }
+
+            .table td,
+            .table th {
+                padding: 0.75rem 1rem;
+            }
         }
         .btn {
             display: inline-block;
@@ -138,46 +277,54 @@
             <a href="{{ path('app_admin_channel_new') }}" class="btn btn-primary">Créer un canal</a>
         </div>
 
-        <div class="table-container">
-            <table class="table">
-            <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>Nom</th>
-                    <th>Description</th>
-                    <th>Par défaut</th>
-                    <th>Actions</th>
-                </tr>
-            </thead>
-            <tbody>
-            {% for channel in channels %}
-                <tr>
-                    <td>{{ channel.id }}</td>
-                    <td>{{ channel.name }}</td>
-                    <td class="description" title="{{ channel.description }}">{{ channel.description }}</td>
-                    <td>
-                        {% if channel.isDefault %}
-                            <span class="badge badge-success">Oui</span>
+        <div class="table-responsive">
+            <div class="table-container">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th class="col-id">ID</th>
+                            <th class="col-name">Nom</th>
+                            <th class="col-description">Description</th>
+                            <th class="col-default">Par défaut</th>
+                            <th class="col-actions">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for channel in channels %}
+                            <tr>
+                                <td>{{ channel.id }}</td>
+                                <td>{{ channel.name }}</td>
+                                <td>
+                                    <span class="truncate" title="{{ channel.description }}">
+                                        {{ channel.description }}
+                                    </span>
+                                </td>
+                                <td>
+                                    {% if channel.isDefault %}
+                                        <span class="badge badge-success">Oui</span>
+                                    {% else %}
+                                        <span class="badge badge-secondary">Non</span>
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    <div class="actions">
+                                        <a href="{{ path('app_admin_task_index', {'channelId': channel.id}) }}" class="btn btn-primary">Tâches</a>
+                                        <a href="{{ path('app_admin_channel_edit', {'id': channel.id}) }}" class="btn btn-warning">Modifier</a>
+                                        <form method="post" action="{{ path('app_admin_channel_delete', {'id': channel.id}) }}" onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer ce canal ?');" style="display: inline;">
+                                            <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ channel.id) }}">
+                                            <button class="btn btn-danger">Supprimer</button>
+                                        </form>
+                                    </div>
+                                </td>
+                            </tr>
                         {% else %}
-                            <span class="badge badge-secondary">Non</span>
-                        {% endif %}
-                    </td>
-                    <td class="actions">
-                        <a href="{{ path('app_admin_task_index', {'channelId': channel.id}) }}" class="btn btn-primary">Tâches</a>
-                        <a href="{{ path('app_admin_channel_edit', {'id': channel.id}) }}" class="btn btn-warning">Modifier</a>
-                        <form method="post" action="{{ path('app_admin_channel_delete', {'id': channel.id}) }}" onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer ce canal ?');" style="display: inline;">
-                            <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ channel.id) }}">
-                            <button class="btn btn-danger">Supprimer</button>
-                        </form>
-                    </td>
-                </tr>
-            {% else %}
-                <tr>
-                    <td colspan="5">Aucun canal trouvé</td>
-                </tr>
-            {% endfor %}
-            </tbody>
-        </table>
+                            <tr>
+                                <td colspan="5" class="text-center text-gray-500">Aucun canal trouvé</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
 {% endblock %}

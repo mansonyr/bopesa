@@ -47,6 +47,19 @@
 {% block stylesheets %}
     {{ parent() }}
     <style>
+        .main-content {
+            background-color: white;
+            color: #333;
+        }
+
+        .content-header {
+            margin-bottom: 2rem;
+        }
+
+        .content-header h1 {
+            color: #1a1a1a;
+        }
+
         .projects-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));

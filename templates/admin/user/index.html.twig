@@ -7,27 +7,54 @@
     <style>
         .admin-container {
             padding: 0;
+            width: 100%;
+            max-width: 100%;
+            overflow-x: hidden;
         }
 
         .admin-header {
             margin-bottom: 2rem;
+            padding: 0 1rem;
+        }
+
+        .table-wrapper {
+            position: relative;
+            width: 100%;
+            max-width: 100%;
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+            margin: 0 -1rem;  /* Annule le padding du conteneur parent */
+            padding: 0 1rem;  /* Réapplique le padding pour l'apparence */
         }
 
         .table-container {
-            width: 100%;
-            overflow-x: auto;
-            margin-bottom: 1rem;
             background-color: white;
             border-radius: 0.5rem;
             box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
+            width: 100%;
+            min-width: 100%;
+            overflow: hidden;
         }
 
         .table {
             width: 100%;
-            min-width: 800px;
             border-collapse: collapse;
             background-color: white;
+            margin: 0;
+            table-layout: fixed;
         }
+
+        /* Définir des largeurs fixes pour les colonnes */
+        .table th.col-id,
+        .table td.col-id { width: 60px; }
+        .table th.col-name,
+        .table td.col-name { width: 200px; }
+        .table th.col-email,
+        .table td.col-email { width: 250px; }
+        .table th.col-roles,
+        .table td.col-roles { width: 150px; }
+        .table th.col-actions,
+        .table td.col-actions { width: 200px; }
         .table th,
         .table td {
             padding: 1rem;
@@ -117,15 +144,14 @@
             <a href="{{ path('app_admin_user_new') }}" class="btn btn-primary">Créer un utilisateur</a>
         </div>
 
-        <div class="table-container">
-            <table class="table">
+        <div class="table-wrapper">
+            <div class="table-container">
+                <table class="table">
             <thead>
                 <tr>
                     <th>ID</th>
                     <th>Nom complet</th>
                     <th>Email</th>
-                    <th>Projet</th>
-                    <th>Site web</th>
                     <th>Rôles</th>
                     <th>Actions</th>
                 </tr>
@@ -136,8 +162,6 @@
                     <td>{{ user.id }}</td>
                     <td>{{ user.fullName }}</td>
                     <td>{{ user.email }}</td>
-                    <td>{{ user.projectName }}</td>
-                    <td>{{ user.website }}</td>
                     <td>{{ user.roles|join(', ') }}</td>
                     <td class="actions">
                         <a href="{{ path('app_admin_user_edit', {'id': user.id}) }}" class="btn btn-warning">Modifier</a>
@@ -167,7 +191,8 @@
                 </tr>
             {% endfor %}
             </tbody>
-            </table>
+                </table>
+            </div>
         </div>
     </div>
 {% endblock %}

@@ -20,6 +20,15 @@
                     --primary-dark: #1e40af;
                     --sidebar-bg: #1a1a1a;
                     --content-bg: #1a1920;
+                    --admin-sidebar-width: 200px;
+                }
+
+                /* Admin specific variables */
+                body:not(.dark-theme) {
+                    --admin-bg: #f8f9fa;
+                    --admin-sidebar-bg: #1f2937;
+                    --admin-text: #111827;
+                    --admin-border: #e5e7eb;
                 }
 
                 @media (max-width: 768px) {
@@ -34,15 +43,19 @@
                     background-color: var(--content-bg);
                 }
 
+                body:not(.dark-theme) {
+                    background-color: var(--admin-bg);
+                }
+
                 .app-container {
                     display: flex;
                     min-height: 100vh;
+                    width: 100%;
+                    position: relative;
                 }
 
+                /* Styles communs pour la sidebar */
                 .sidebar {
-                    width: var(--sidebar-width);
-                    background-color: var(--sidebar-bg);
-                    color: white;
                     height: 100vh;
                     position: fixed;
                     left: 0;
@@ -50,6 +63,20 @@
                     overflow-y: auto;
                     transition: transform 0.3s ease;
                     z-index: 50;
+                }
+
+                /* Styles spécifiques pour la sidebar admin */
+                body:not(.dark-theme) .sidebar {
+                    width: var(--admin-sidebar-width);
+                    background-color: var(--admin-sidebar-bg);
+                    border-right: 1px solid var(--admin-border);
+                }
+
+                /* Styles pour la sidebar standard */
+                body.dark-theme .sidebar {
+                    width: var(--sidebar-width);
+                    background-color: var(--sidebar-bg);
+                    color: white;
                 }
 
                 @media (max-width: 768px) {
@@ -94,25 +121,46 @@
                     background-color: var(--primary-color);
                 }
 
+                /* Styles de base pour le contenu principal */
                 .main-content {
-                    margin-left: var(--sidebar-width);
                     flex: 1;
                     padding: 2rem;
                     transition: margin-left 0.3s ease;
+                    min-height: 100vh;
                 }
 
+                /* Styles spécifiques pour le contenu admin */
+                body:not(.dark-theme) .main-content {
+                    margin-left: var(--admin-sidebar-width);
+                    background-color: var(--admin-bg);
+                    color: var(--admin-text);
+                }
+
+                /* Styles pour le contenu standard */
+                body.dark-theme .main-content {
+                    margin-left: var(--sidebar-width);
+                    background-color: var(--content-bg);
+                }
+
+                /* Styles responsives */
                 @media (max-width: 768px) {
                     .main-content {
                         margin-left: 0;
                         padding: 1rem;
-                    }
-                }
-
-                @media (max-width: 768px) {
-                    .main-content {
-                        margin-left: 0;
                         width: 100%;
-                        padding: 1rem;
+                    }
+
+                    body:not(.dark-theme) .main-content {
+                        margin-left: 0;
+                    }
+
+                    .sidebar {
+                        transform: translateX(-100%);
+                    }
+
+                    .sidebar.active {
+                        transform: translateX(0);
+                        width: 240px !important;
                     }
                 }
 
@@ -509,7 +557,7 @@
             }
         </script>
     </head>
-    <body>
+    <body class="{% if not app.request.get('_route') starts with 'app_admin_' %}dark-theme{% endif %}">
         {% if app.user and app.request.get('_route') != 'app_home' %}
             <button class="menu-toggle" onclick="toggleSidebar()">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" width="24" height="24">
@@ -628,8 +676,5 @@
         {% block javascripts %}
             {{ encore_entry_script_tags('app') }}
         {% endblock %}
-        <footer style="background-color: #1a1920; padding: 1rem; text-align: center; position: relative; bottom: 0; width: 100%; color: white;">
-            ©2025 lemlist - All rights reserved.
-        </footer>
     </body>
 </html>

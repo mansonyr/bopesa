@@ -128,6 +128,9 @@ class Task
 
     public function setPriority(?string $priority): static
     {
+        if ($priority === '') {
+            $priority = null;
+        }
         if ($priority !== null && !isset(self::PRIORITIES[$priority])) {
             throw new \InvalidArgumentException(sprintf('Invalid priority "%s"', $priority));
         }
