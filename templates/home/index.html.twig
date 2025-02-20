@@ -21,7 +21,8 @@
             top: 0;
             left: 0;
             right: 0;
-            background: white;
+            background: #E0E7FA !important;
+            color: #155CE7 !important;
             box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
             z-index: 50;
         }
@@ -91,13 +92,15 @@
             display: flex;
             justify-content: center;
             align-items: center;
+            margin-top: 2rem;
         }
 
         .hero-title {
             font-size: 2.5rem;
             font-weight: bold;
-            color: #1a1920;
+            color: black !important;
             margin-bottom: 1.5rem;
+            margin-top: 2rem;
             line-height: 1.2;
         }
 
@@ -112,7 +115,7 @@
             width: 100%;
             overflow: hidden;
             background: #e9ebf5;
-            padding: 4rem 0;
+            padding-bottom: 4rem;
         }
 
         .features-grid {
@@ -138,7 +141,7 @@
             scroll-snap-align: start;
             min-width: 400px;
             width: 400px;
-            background: white;
+            background:  #eeeffe;
             border-radius: 1rem;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
             border: 1px solid rgba(0, 0, 0, 0.1);
@@ -159,7 +162,7 @@
 
         .stat-item {
             flex: 1;
-            padding: 1rem;
+            padding: 0.5rem;
             text-align: center;
             position: relative;
             display: flex;
@@ -176,7 +179,7 @@
         .stat-value {
             font-size: 1.1rem;
             font-weight: 600;
-            color: #155CE7;
+            color: black;
             margin-bottom: 0.25rem;
             line-height: 1;
             display: block;
@@ -184,7 +187,7 @@
 
         .stat-label {
             font-size: 0.9rem;
-            color: #1a1920;
+            color: black;
             font-weight: 500;
             line-height: 1;
             display: block;
@@ -219,7 +222,7 @@
         }
 
         .btn-primary {
-            background-color: #4f46e5;
+            background-color: #155CE7;
             color: white;
             border: none;
         }
@@ -230,8 +233,8 @@
         }
 
         .btn-secondary {
-            background-color: #e5e7eb;
-            color: #1f2937;
+            background-color: #E0E7FA;
+            color: #155CE7;
             border: none;
         }
 
@@ -328,7 +331,9 @@
         <nav class="landing-nav">
             <div class="nav-content">
                 <div class="nav-logo">
-                    <span class="text-xl font-bold">BOPESA</span>
+                <img src="{{ asset('images/logobopesa.png') }}" alt="Dashboard Preview" style="max-width: 100%; height: auto;">
+               
+                    {#<span class="text-xl font-bold">BOPESA</span>#}
                 </div>
                 <div class="nav-links">
                     {% if app.user %}
@@ -341,10 +346,10 @@
                                 </div>
                             </button>
                             <div id="profileDropdown" class="profile-dropdown hidden">
-                                <a href="{{ path('app_profile') }}" class="dropdown-item">
+                                {#<a href="{{ path('app_profile') }}" class="dropdown-item">
                                     <i class="fas fa-user"></i>
                                     Mon profil
-                                </a>
+                                </a>#}
                                 {% if is_granted('ROLE_ADMIN') %}
                                     <a href="{{ path('app_admin_dashboard') }}" class="dropdown-item">
                                         <i class="fas fa-cog"></i>
@@ -367,15 +372,15 @@
         <section class="hero-section">
             <div class="hero-content">
                 <div class="hero-text">
-                    <h1 class="hero-title">Le marketing simplifié à travers 19 canaux d'acquisition.</h1>
-                    <p class="hero-subtitle">Notre application vous aide à gagner du temps sur le suivi de l'activité, du temps, des revenus et plus encore. Prenez tout sous contrôle avec Baza.</p>
+                    <h1 class="hero-title">L’application qui vous aide à faire décoller votre stratégie d’acquisition.</h1>
+                    <p class="hero-subtitle"><strong>Bopesa</strong> est votre tableau de bord intelligent, qui regroupe vos 19 canaux d’acquisition en tâches et objectifs clairs. Une approche visuelle et intuitive pour une exécution fluide et efficace.</p>
                     <div class="buttons-container">
                         <a href="{{ path('app_login') }}" class="btn btn-primary">Connexion</a>
                         <a href="{{ path('app_register') }}" class="btn btn-secondary">Inscription</a>
                     </div>
                 </div>
                 <div class="hero-image">
-                    <img src="{{ asset('images/dashboard-preview.png') }}" alt="Dashboard Preview" style="max-width: 100%; height: auto;">
+                    <img src="{{ asset('images/dashboard.png') }}" alt="Dashboard Preview" style="max-width: 100%; height: auto;">
                 </div>
             </div>
         </section>
@@ -414,10 +419,6 @@
                         <div class="stat-item">
                             <div class="stat-value">32</div>
                             <div class="stat-label">Tâches</div>
-                        </div>
-                        <div class="stat-item">
-                            <div class="stat-value">128</div>
-                            <div class="stat-label">Sous-tâches</div>
                         </div>
                         <div class="stat-item">
                             <div class="stat-value">92%</div>

@@ -24,7 +24,6 @@ class TestUserFixtures extends Fixture
         $user1->setPassword($this->passwordHasher->hashPassword($user1, 'password'));
         $user1->setRoles(['ROLE_USER']);
         $user1->setFullName('User 1');
-        $user1->setProjectName('Project 1');
         $manager->persist($user1);
 
         // Créer l'utilisateur 2
@@ -33,7 +32,6 @@ class TestUserFixtures extends Fixture
         $user2->setPassword($this->passwordHasher->hashPassword($user2, 'password'));
         $user2->setRoles(['ROLE_USER']);
         $user2->setFullName('User 2');
-        $user2->setProjectName('Project 2');
         $manager->persist($user2);
 
         // Créer l'administrateur
@@ -42,7 +40,6 @@ class TestUserFixtures extends Fixture
         $admin->setPassword($this->passwordHasher->hashPassword($admin, 'password'));
         $admin->setRoles(['ROLE_SUPER_ADMIN']);
         $admin->setFullName('Admin');
-        $admin->setProjectName('Admin Project');
         $manager->persist($admin);
 
         $manager->flush();

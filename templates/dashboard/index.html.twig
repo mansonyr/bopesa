@@ -77,7 +77,7 @@
         .sidebar {
             width: 250px;
             background-color: #1a56db;
-            color: white;
+            color: black;
             padding: 1rem;
         }
         
@@ -105,7 +105,7 @@
         }
         
         .channel-item.active {
-            background-color: rgba(255, 255, 255, 0.2);
+            background-color: #aec4ff;
         }
         
         .main-content {
@@ -205,10 +205,18 @@
         }
         
         .edit-button {
-            padding: 0.25rem;
-            border-radius: 0.25rem;
-            color: #6b7280;
+            padding: 0.5rem;
+            border-radius: 0.375rem;
+            font-size: 0.875rem;
+            font-weight: 500;
+            cursor: pointer;
             transition: all 0.2s;
+            border: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        color: #334155 !important;
+            background-color: transparent;
         }
         
         .edit-button:hover {
@@ -348,7 +356,7 @@
         }
         
         .btn-primary {
-            background-color: #1a56db;
+            background-color: #155CE7;
             color: white;
         }
         
@@ -365,7 +373,7 @@
             border-radius: 0.375rem;
             cursor: pointer;
             transition: background-color 0.2s;
-            margin-top: 1rem;
+            margin-top: none !important;
             width: 100%;
         }
 
@@ -392,7 +400,7 @@
         .progress-bar {
             width: 100%;
             height: 0.5rem;
-            background-color: #e5e7eb;
+            background-color: #cecece;
             border-radius: 9999px;
             overflow: hidden;
         }
@@ -461,15 +469,25 @@
         .resource-link:hover {
             text-decoration: underline;
         }
+
+        .sidebar {
+            background-color: #E0E7FA !important;
+            color: black !important;
+        }
     </style>
 {% endblock %}
 
 {% block body %}
     <div class="dashboard-container">
-        {# Sidebar #}
+        {# Sidebar  <div class="">#}
         <div class="sidebar">
-            <div class="sidebar-title">BOPESA</div>
+            <div class="sidebar-title"><img src="{{ asset('images/logobopesa.png') }}" alt="Dashboard Preview" style="max-width: 100%; height: auto;"></div>
             <div class="channel-list">
+                    <div class="channel-item">
+                        <a href="{{ path('app_web_channel_list') }}" class="resource-link">
+                            Tableau de bord
+                         </a>
+                    </div>
                 {% for channel in channels %}
                     <div class="channel-item {% if channel.id == currentChannel.id %}active{% endif %}"
                          onclick="window.location.href='{{ path('app_web_channel_show', {'id': channel.id}) }}'">
@@ -482,14 +500,15 @@
         {# Main Content #}
         <div class="main-content">
             {% if currentChannel %}
-                <div class="channel-header">
-                    <h1 class="text-3xl font-bold">{{ currentChannel.name }}</h1>
+               <div class="channel-header">
+               
+                    {# Rolly modification <h1 class="text-3xl font-bold">{{ currentChannel.name }}</h1>
                     <div class="progress-bar" style="width: 200px;">
                         <div class="progress-value" style="width: {{ currentChannel.progress }}%;"></div>
-                    </div>
+                    </div>#}
                 </div>
 
-                {# Tabs #}
+                 {#
                 <div class="tabs">
                     <div class="tab {% if activeTab == 'tasks' %}active{% endif %}"
                          onclick="window.location.href='{{ path('app_web_channel_show', {'id': currentChannel.id, 'tab': 'tasks'}) }}'">
@@ -499,7 +518,7 @@
                          onclick="window.location.href='{{ path('app_web_channel_show', {'id': currentChannel.id, 'tab': 'subtasks'}) }}'">
                         Sous-tâches
                     </div>
-                </div>
+                </div>#}
 
                 {# Tasks Tab Content #}
                 {% if activeTab == 'tasks' %}

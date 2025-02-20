@@ -18,7 +18,6 @@ class SuperAdminFixtures extends Fixture
         $superAdmin = new Client();
         $superAdmin->setEmail('super.admin@bopesa.com');
         $superAdmin->setFullName('Super Admin');
-        $superAdmin->setProjectName('Bopesa Marketing');
         $superAdmin->setRoles(['ROLE_SUPER_ADMIN']);
         $superAdmin->setPassword(
             $this->passwordHasher->hashPassword(
